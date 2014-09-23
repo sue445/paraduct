@@ -1,3 +1,8 @@
 #!/usr/bin/env ruby
 
 require 'paraduct'
+require 'optparse'
+
+opt = OptionParser.new
+opt.parse!(ARGV)
+
