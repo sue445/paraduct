@@ -1,5 +1,7 @@
 # Paraduct
 
+[![Build Status](https://travis-ci.org/sue445/paraduct.svg?branch=master)](https://travis-ci.org/sue445/paraduct)
+
 TODO: Write a gem description
 
 ## Installation
