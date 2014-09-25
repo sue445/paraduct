@@ -7,6 +7,8 @@
 
 TODO: Write a gem description
 
+[![Stories in Ready](https://badge.waffle.io/sue445/paraduct.svg?label=ready&title=Ready)](http://waffle.io/sue445/paraduct)
+
 ## Installation
 
 Add this line to your application's Gemfile:
