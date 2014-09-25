@@ -1,3 +1,16 @@
+require 'simplecov'
+require 'coveralls'
+require 'codeclimate-test-reporter'
+
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  CodeClimate::TestReporter::Formatter,
+  Coveralls::SimpleCov::Formatter
+]
+SimpleCov.start do
+  add_filter 'bin'
+  add_filter 'vendor'
+end
+
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'paraduct'
 
