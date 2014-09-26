@@ -106,3 +106,7 @@ RSpec.configure do |config|
 
   config.order = :random
 end
+
+def spec_dir
+  Pathname(__dir__)
+end
