@@ -19,11 +19,11 @@ module Paraduct
     # @return [String] stdout
     # @raise [Paraduct::ProcessError] command exited error status
     def self.perform(script_file, params)
-      capitalized_params = params.inject({}){|res, (key,value)|
+      capitalized_params = params.inject({}) do |res, (key, value)|
         res[key.upcase] = value
         res
-      }
-      variable_string = capitalized_params.map{|key, value| %Q(#{key}="#{value}") }.join(" ")
+      end
+      variable_string = capitalized_params.map{ |key, value| %(#{key}="#{value}") }.join(" ")
       run_command("#{variable_string} #{script_file}")
     end
 
