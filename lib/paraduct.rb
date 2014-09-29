@@ -1,6 +1,7 @@
 require "paraduct/version"
 require "paraduct/configuration"
 require "paraduct/variable_converter"
+require "paraduct/runner"
 
 module Paraduct
   class << self
