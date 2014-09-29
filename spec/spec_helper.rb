@@ -108,5 +108,5 @@ RSpec.configure do |config|
 end
 
 def spec_dir
-  Pathname(__dir__)
+  Pathname(File.dirname(__FILE__))
 end
