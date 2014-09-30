@@ -1,6 +1,6 @@
-describe Paraduct::Tester do
+describe Paraduct::VariableConverter do
   describe "#product" do
-    subject { Paraduct::Tester.product(variables) }
+    subject { Paraduct::VariableConverter.product(variables) }
 
     context "with single variable" do
       let(:variables) do

@@ -1,5 +1,5 @@
 module Paraduct
-  class Tester
+  class VariableConverter
     # @param variables [Hash{String => Array<String>}] Key: variable name, Value: values_pattern which you want to product
     # @return [Array<Hash{String => String}>]
     def self.product(variables)
