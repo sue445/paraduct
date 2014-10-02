@@ -14,11 +14,7 @@ describe Paraduct::Runner do
     end
 
     context "with real system" do
-      around do |example|
-        Dir.chdir(spec_dir) do
-          example.run
-        end
-      end
+      include_context :within_spec_dir
 
       context "when success" do
         it { should match /RUBY=1.9/ }
