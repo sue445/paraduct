@@ -41,5 +41,11 @@ DATABASE=mysql
 
       it { should eq "debug1\n" }
     end
+
+    context "with multiple commands" do
+      let(:script){ ["echo debug1", "echo debug2"] }
+
+      it { should eq "debug1\ndebug2\n" }
+    end
   end
 end

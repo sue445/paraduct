@@ -14,7 +14,7 @@ module Paraduct
 
   class Runner
     # run script with params
-    # @param script [String] script file, script
+    # @param script [String, Array<String>] script file, script(s)
     # @param params [Hash{String => String}] key is capitalized and value is quoted (ex. foo=1 => FOO="1" )
     # @return [String] stdout
     # @raise [Paraduct::ProcessError] command exited error status
@@ -24,7 +24,15 @@ module Paraduct
         res
       end
       variable_string = capitalized_params.map{ |key, value| %(#{key}="#{value}") }.join(" ")
-      run_command("#{variable_string} #{script}")
+
+      if script.is_a?(Enumerable)
+        script.inject("") { |stdout, command|
+          stdout << run_command("#{variable_string} #{command}")
+          stdout
+        }
+      else
+        run_command("#{variable_string} #{script}")
+      end
     end
 
     def self.run_command(command)
