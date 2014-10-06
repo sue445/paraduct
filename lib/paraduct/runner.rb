@@ -14,7 +14,7 @@ module Paraduct
 
   class Runner
     # run script with params
-    # @param script [String] script file
+    # @param script [String] script file, script
     # @param params [Hash{String => String}] key is capitalized and value is quoted (ex. foo=1 => FOO="1" )
     # @return [String] stdout
     # @raise [Paraduct::ProcessError] command exited error status

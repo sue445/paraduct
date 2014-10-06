@@ -35,5 +35,11 @@ DATABASE=mysql
         it { expect{ subject }.to raise_error(Paraduct::ProcessError, stdout) }
       end
     end
+
+    context "with single command" do
+      let(:script){ "echo debug1" }
+
+      it { should eq "debug1\n" }
+    end
   end
 end
