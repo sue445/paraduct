@@ -26,10 +26,10 @@ module Paraduct
       variable_string = capitalized_params.map{ |key, value| %(#{key}="#{value}") }.join(" ")
 
       if script.is_a?(Enumerable)
-        script.inject("") { |stdout, command|
+        script.inject("") do |stdout, command|
           stdout << run_command("#{variable_string} #{command}")
           stdout
-        }
+        end
       else
         run_command("#{variable_string} #{script}")
       end
