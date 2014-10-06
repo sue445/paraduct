@@ -14,17 +14,17 @@ module Paraduct
 
   class Runner
     # run script with params
-    # @param script_file [String]
-    # @param params      [Hash{String => String}] key is capitalized and value is quoted (ex. foo=1 => FOO="1" )
+    # @param script [String] script file
+    # @param params [Hash{String => String}] key is capitalized and value is quoted (ex. foo=1 => FOO="1" )
     # @return [String] stdout
     # @raise [Paraduct::ProcessError] command exited error status
-    def self.perform(script_file, params)
+    def self.perform(script, params)
       capitalized_params = params.inject({}) do |res, (key, value)|
         res[key.upcase] = value
         res
       end
       variable_string = capitalized_params.map{ |key, value| %(#{key}="#{value}") }.join(" ")
-      run_command("#{variable_string} #{script_file}")
+      run_command("#{variable_string} #{script}")
     end
 
     def self.run_command(command)

@@ -1,10 +1,10 @@
 describe Paraduct::Runner do
   describe "#perform" do
-    subject{ Paraduct::Runner.perform(script_file, params) }
+    subject{ Paraduct::Runner.perform(script, params) }
 
-    let(:script_file){ "./script/build_success.sh" }
-    let(:params)     { { "ruby" => "1.9", "database" => "mysql" } }
-    let(:command)    { 'RUBY="1.9" DATABASE="mysql" ./script/build_success.sh' }
+    let(:script) { "./script/build_success.sh" }
+    let(:params) { { "ruby" => "1.9", "database" => "mysql" } }
+    let(:command){ 'RUBY="1.9" DATABASE="mysql" ./script/build_success.sh' }
 
     context "with mock system" do
       it "script is call with capitalized variable" do
@@ -22,7 +22,7 @@ describe Paraduct::Runner do
       end
 
       context "when error in script file" do
-        let(:script_file){ "./script/build_error.sh" }
+        let(:script){ "./script/build_error.sh" }
 
         let(:stdout) do
           <<-EOS
