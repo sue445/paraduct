@@ -23,7 +23,7 @@ module Paraduct
         res[key.upcase] = value
         res
       end
-      variable_string = capitalized_params.map{ |key, value| %(#{key}="#{value}") }.join(" ")
+      variable_string = capitalized_params.map{ |key, value| %(export #{key}="#{value}";) }.join(" ")
 
       if script.is_a?(Enumerable)
         script.inject("") do |stdout, command|
