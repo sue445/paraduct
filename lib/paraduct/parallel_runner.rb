@@ -1,12 +1,12 @@
 module Paraduct
   class ParallelRunner
-    def self.perform_all(script_file, product_variables)
+    def self.perform_all(script, product_variables)
       threads = []
       stdout_messages = []
       product_variables.each do |params|
-        threads << Thread.new(script_file, params) do |_script_file, _params|
+        threads << Thread.new(script, params) do |_script, _params|
           begin
-            stdout_messages << Paraduct::Runner.perform(_script_file, _params)
+            stdout_messages << Paraduct::Runner.perform(_script, _params)
           rescue ProcessError => e
             stdout_messages << e.message
           end
