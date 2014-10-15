@@ -19,11 +19,7 @@ module Paraduct
     # @return [String] stdout
     # @raise [Paraduct::ProcessError] command exited error status
     def self.perform(script, params)
-      capitalized_params = params.inject({}) do |res, (key, value)|
-        res[key.upcase] = value
-        res
-      end
-      variable_string = capitalized_params.map{ |key, value| %(export #{key}="#{value}";) }.join(" ")
+      variable_string = capitalize_keys(params).map{ |key, value| %(export #{key}="#{value}";) }.join(" ")
 
       if script.is_a?(Enumerable)
         script.inject("") do |stdout, command|
@@ -35,11 +31,24 @@ module Paraduct
       end
     end
 
+    def self.parameterized_job_dir(base_job_dir, params)
+      dir_name = capitalize_keys(params).map{ |key, value| "#{key}_#{value}" }.join("_")
+      Pathname(base_job_dir).join(dir_name)
+    end
+
     def self.run_command(command)
       stdout, stderr, status = Open3.capture3(command)
       raise ProcessError.new("#{stdout}\n#{stderr}", status) unless status.success?
       stdout
     end
     private_class_method :run_command
+
+    def self.capitalize_keys(params)
+      params.inject({}) do |res, (key, value)|
+        res[key.upcase] = value
+        res
+      end
+    end
+    private_class_method :capitalize_keys
   end
 end

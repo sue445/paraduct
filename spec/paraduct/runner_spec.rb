@@ -48,4 +48,13 @@ DATABASE=mysql
       it { should eq "RUBY=1.9\nDATABASE=mysql\n" }
     end
   end
+
+  describe "#parameterized_job_dir" do
+    subject{ Paraduct::Runner.parameterized_job_dir(base_job_dir, params) }
+
+    let(:base_job_dir){ "/tmp/jobs" }
+    let(:params)      { { "ruby" => "1.9", "database" => "mysql" } }
+
+    it { should eq Pathname("/tmp/jobs/RUBY_1.9_DATABASE_mysql") }
+  end
 end
