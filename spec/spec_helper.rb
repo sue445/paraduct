@@ -16,6 +16,7 @@ $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'paraduct'
 require 'rspec/collection_matchers'
 require 'rspec/temp_dir'
+require 'pry'
 
 def spec_dir
   Pathname(File.dirname(__FILE__))
