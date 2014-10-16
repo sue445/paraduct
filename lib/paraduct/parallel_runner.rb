@@ -10,10 +10,7 @@ module Paraduct
       product_variables.each do |params|
         threads << Thread.new(base_job_dir, script, params) do |_base_job_dir, _script, _params|
           begin
-            job_dir = Paraduct::Runner.parameterized_job_dir(_base_job_dir, _params)
-            FileUtils.mkdir_p(job_dir) unless job_dir.exist?
-            copy_recursive(Paraduct.config.root_dir, job_dir)
-            Dir.chdir(job_dir)
+            setup_runner(_base_job_dir, _params)
             stdout_messages << Paraduct::Runner.perform(_script, _params)
           rescue Paraduct::ProcessError => e
             stdout_messages << e.message
@@ -38,5 +35,13 @@ module Paraduct
         end
       end
     end
+
+    def self.setup_runner(base_job_dir, params)
+      job_dir = Paraduct::Runner.parameterized_job_dir(base_job_dir, params)
+      FileUtils.mkdir_p(job_dir) unless job_dir.exist?
+      copy_recursive(Paraduct.config.root_dir, job_dir)
+      Dir.chdir(job_dir)
+    end
+    private_class_method :setup_runner
   end
 end
