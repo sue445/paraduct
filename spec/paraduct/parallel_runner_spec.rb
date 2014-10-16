@@ -2,19 +2,7 @@ describe Paraduct::ParallelRunner do
   describe "#perform_all" do
     subject{ Paraduct::ParallelRunner.perform_all(script, product_variables) }
 
-    include_context "uses temp dir"
-
-    before do
-      # avoid "warning: conflicting chdir during another chdir block"
-      @current_dir = Pathname.pwd
-      Dir.chdir(temp_dir)
-      FileUtils.cp_r(spec_dir.join("script"), temp_dir)
-      FileUtils.cp_r(spec_dir.join(".paraduct.yml"), temp_dir)
-    end
-
-    after do
-      Dir.chdir(@current_dir)
-    end
+    include_context :within_temp_work_dir
 
     # after do
     #   puts `tree #{temp_dir}`
