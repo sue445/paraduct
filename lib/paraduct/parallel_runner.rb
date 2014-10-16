@@ -5,15 +5,14 @@ module Paraduct
     def self.perform_all(script, product_variables)
       threads = []
       stdout_messages = []
-      current_dir = Pathname.pwd
-      base_job_dir = current_dir.join("jobs")
-      base_job_dir.mkdir unless base_job_dir.exist?
+      base_job_dir = Paraduct.config.work_dir
+      FileUtils.mkdir_p(base_job_dir) unless base_job_dir.exist?
       product_variables.each do |params|
         threads << Thread.new(base_job_dir, script, params) do |_base_job_dir, _script, _params|
           begin
             job_dir = Paraduct::Runner.parameterized_job_dir(_base_job_dir, _params)
-            job_dir.mkdir unless job_dir.exist?
-            copy_recursive(current_dir, job_dir)
+            FileUtils.mkdir_p(job_dir) unless job_dir.exist?
+            copy_recursive(Paraduct.config.root_dir, job_dir)
             Dir.chdir(job_dir)
             stdout_messages << Paraduct::Runner.perform(_script, _params)
           rescue Paraduct::ProcessError => e

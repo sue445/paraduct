@@ -18,4 +18,10 @@ describe Paraduct::Configuration do
     end
   end
 
+  describe "#work_dir" do
+    subject{ config.work_dir }
+
+    it { should eq spec_dir.join("tmp/paraduct_workspace") }
+  end
+
 end
