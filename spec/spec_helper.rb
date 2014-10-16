@@ -7,7 +7,7 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
   Coveralls::SimpleCov::Formatter
 ]
 SimpleCov.start do
-  %w(bin vendor spec).each do |ignore_path|
+  %w(/bin/ /vendor/ /spec/).each do |ignore_path|
     add_filter(ignore_path)
   end
 end
