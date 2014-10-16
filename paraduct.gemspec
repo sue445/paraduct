@@ -21,7 +21,11 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", ">= 1.5"
   spec.add_development_dependency "codeclimate-test-reporter"
   spec.add_development_dependency "coveralls"
+  spec.add_development_dependency "pry"
+  spec.add_development_dependency "pry-nav"
+  spec.add_development_dependency "pry-remote"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.1.0"
   spec.add_development_dependency "rspec-collection_matchers"
+  spec.add_development_dependency "rspec-temp_dir"
 end

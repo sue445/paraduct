@@ -1,3 +1,4 @@
+work_dir: tmp/paraduct_workspace
 variables:
   ruby:
     - 1.9.3

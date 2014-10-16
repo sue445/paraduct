@@ -4,7 +4,7 @@ describe Paraduct::Runner do
 
     let(:script) { "./script/build_success.sh" }
     let(:params) { { "ruby" => "1.9", "database" => "mysql" } }
-    let(:command){ 'RUBY="1.9" DATABASE="mysql" ./script/build_success.sh' }
+    let(:command){ 'export RUBY="1.9"; export DATABASE="mysql"; ./script/build_success.sh' }
 
     context "with mock system" do
       it "script is call with capitalized variable" do
@@ -37,15 +37,24 @@ DATABASE=mysql
     end
 
     context "with single command" do
-      let(:script){ "echo debug1" }
+      let(:script){ 'echo RUBY=${RUBY}' }
 
-      it { should eq "debug1\n" }
+      it { should eq "RUBY=1.9\n" }
     end
 
     context "with multiple commands" do
-      let(:script){ ["echo debug1", "echo debug2"] }
+      let(:script){ ['echo RUBY=${RUBY}', 'echo DATABASE=${DATABASE}'] }
 
-      it { should eq "debug1\ndebug2\n" }
+      it { should eq "RUBY=1.9\nDATABASE=mysql\n" }
     end
+  end
+
+  describe "#parameterized_job_dir" do
+    subject{ Paraduct::Runner.parameterized_job_dir(base_job_dir, params) }
+
+    let(:base_job_dir){ "/tmp/jobs" }
+    let(:params)      { { "ruby" => "1.9", "database" => "mysql" } }
+
+    it { should eq Pathname("/tmp/jobs/RUBY_1.9_DATABASE_mysql") }
   end
 end
