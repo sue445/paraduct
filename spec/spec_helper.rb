@@ -14,6 +14,7 @@ end
 
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'paraduct'
+require 'paraduct/cli'
 require 'rspec/collection_matchers'
 require 'rspec/temp_dir'
 require 'pry'

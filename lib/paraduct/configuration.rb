@@ -12,6 +12,10 @@ module Paraduct
       @config["variables"]
     end
 
+    def script
+      @config["script"]
+    end
+
     def work_dir
       _work_dir = @config["work_dir"] || "tmp/paraduct_workspace"
       root_dir.join(_work_dir)
