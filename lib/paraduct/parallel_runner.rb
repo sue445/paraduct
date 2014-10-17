@@ -2,19 +2,40 @@ module Paraduct
   class ParallelRunner
     # @param script            [String, Array<String>] script file, script(s)
     # @param product_variables [Array<Hash{String => String}>]
+    # @return [Array<String>] stdout messages of each job
     def self.perform_all(script, product_variables)
       threads = []
       stdout_messages = []
       base_job_dir = Paraduct.config.work_dir
       FileUtils.mkdir_p(base_job_dir) unless base_job_dir.exist?
+
+      puts <<-EOS
+======================================================
+START matrix test
+      EOS
+      product_variables.each do |params|
+        puts "params: #{params}"
+      end
+
       product_variables.each do |params|
         threads << Thread.new(base_job_dir, script, params) do |_base_job_dir, _script, _params|
-          begin
-            setup_runner(_base_job_dir, _params)
-            stdout_messages << Paraduct::Runner.perform(_script, _params)
-          rescue Paraduct::ProcessError => e
-            stdout_messages << e.message
-          end
+          job_dir = setup_runner(_base_job_dir, _params)
+          stdout =
+            begin
+              Paraduct::Runner.perform(_script, _params)
+            rescue Paraduct::ProcessError => e
+              e.message
+            end
+
+          puts <<-EOS
+======================================================
+params: #{_params}
+job_dir: #{job_dir}
+
+#{stdout}
+          EOS
+
+          stdout_messages << stdout
         end
       end
       threads.map(&:join)
@@ -41,6 +62,7 @@ module Paraduct
       FileUtils.mkdir_p(job_dir) unless job_dir.exist?
       copy_recursive(Paraduct.config.root_dir, job_dir)
       Dir.chdir(job_dir)
+      job_dir
     end
     private_class_method :setup_runner
   end
