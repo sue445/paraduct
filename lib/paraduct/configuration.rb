@@ -1,5 +1,6 @@
 module Paraduct
   require "singleton"
+  require "yaml"
 
   class Configuration
     include Singleton
