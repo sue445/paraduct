@@ -1,5 +1,5 @@
 # Paraduct
-
+[![Gem Version](https://badge.fury.io/rb/paraduct.svg)](http://badge.fury.io/rb/paraduct)
 [![Build Status](https://travis-ci.org/sue445/paraduct.svg?branch=master)](https://travis-ci.org/sue445/paraduct)
 [![Code Climate](https://codeclimate.com/github/sue445/paraduct/badges/gpa.svg)](https://codeclimate.com/github/sue445/paraduct)
 [![Coverage Status](https://img.shields.io/coveralls/sue445/paraduct.svg)](https://coveralls.io/r/sue445/paraduct)
