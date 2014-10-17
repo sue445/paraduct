@@ -1,6 +1,10 @@
 describe Paraduct::CLI do
-  describe "#start" do
-    subject{ Paraduct::CLI.start }
+  subject { Paraduct::CLI.start(args) }
+
+  let(:args){ [command] }
+
+  describe "#test" do
+    let(:command){ "test" }
 
     include_context :within_temp_work_dir
 
@@ -32,5 +36,26 @@ describe Paraduct::CLI do
       expect(Paraduct::ParallelRunner).to receive(:perform_all).with(script, product_variables)
       subject
     end
+  end
+
+  describe "#generate" do
+    let(:command){ "generate" }
+
+    include_context "uses temp dir"
+
+    around do |example|
+      Dir.chdir(temp_dir) do
+        example.run
+      end
+    end
+
+    before do
+      # exercise
+      subject
+    end
+
+    let(:generated_config_file){ temp_dir_path.join(".paraduct.yml") }
+
+    it { expect(generated_config_file).to be_exist }
   end
 end

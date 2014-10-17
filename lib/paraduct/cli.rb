@@ -1,8 +1,13 @@
 require 'paraduct'
+require 'thor'
 
 module Paraduct
-  module CLI
-    def self.start
+  class CLI < Thor
+    include Thor::Actions
+
+    desc "test", "run matrix test"
+    default_task :test
+    def test
       script = Paraduct.config.script
       raise "require script" if script.blank?
 
@@ -11,6 +16,15 @@ module Paraduct
 
       product_variables = Paraduct::VariableConverter.product(variables)
       Paraduct::ParallelRunner.perform_all(script, product_variables)
+    end
+
+    desc "generate", "generate .paraduct.yml"
+    def generate
+      template(".paraduct.yml")
+    end
+
+    def self.source_root
+      File.expand_path(File.join(File.dirname(__FILE__), "templates"))
     end
   end
 end
