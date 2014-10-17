@@ -6,6 +6,7 @@ module Paraduct
     include Singleton
 
     def initialize
+      raise "not found .paraduct.yml" unless config_file.exist?
       @config = YAML.load_file(config_file)
     end
 
