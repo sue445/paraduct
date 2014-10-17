@@ -21,13 +21,9 @@ module Paraduct
     def self.perform(script, params)
       variable_string = capitalize_keys(params).map{ |key, value| %(export #{key}="#{value}";) }.join(" ")
 
-      if script.is_a?(Enumerable)
-        script.inject("") do |stdout, command|
-          stdout << run_command("#{variable_string} #{command}")
-          stdout
-        end
-      else
-        run_command("#{variable_string} #{script}")
+      Array.wrap(script).inject("") do |stdout, command|
+        stdout << run_command("#{variable_string} #{command}")
+        stdout
       end
     end
 
