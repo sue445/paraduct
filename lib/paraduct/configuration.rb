@@ -1,5 +1,6 @@
 module Paraduct
   require "singleton"
+  require "yaml"
 
   class Configuration
     include Singleton
@@ -10,6 +11,10 @@ module Paraduct
 
     def variables
       @config["variables"]
+    end
+
+    def script
+      @config["script"]
     end
 
     def work_dir

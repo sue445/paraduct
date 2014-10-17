@@ -12,3 +12,6 @@
 *.o
 *.a
 mkmf.log
+spec/tmp/
+vendor/bundle/
+.ruby-version
