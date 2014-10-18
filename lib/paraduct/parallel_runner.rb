@@ -1,5 +1,6 @@
 module Paraduct
   class ParallelRunner
+    # run script with arguments
     # @param script            [String, Array<String>] script file, script(s)
     # @param product_variables [Array<Hash{String => String}>]
     # @return [Array<Hash>] test response of each job

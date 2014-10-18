@@ -4,6 +4,10 @@ module Paraduct
   class Runner
     attr_reader :script, :params, :base_job_dir
 
+    # @param args
+    # @option args :script [String, Array<String>] script file, script(s)
+    # @option args :params [Hash{String => String}] key is capitalized and value is quoted (ex. foo=1 => FOO="1" )
+    # @option args :base_job_dir [String]
     def initialize(args={})
       @script       = args[:script]
       @params       = args[:params]
@@ -17,12 +21,10 @@ module Paraduct
     end
 
     # run script with params
-    # @param script [String, Array<String>] script file, script(s)
-    # @param params [Hash{String => String}] key is capitalized and value is quoted (ex. foo=1 => FOO="1" )
     # @return [String] stdout
     # @raise [Paraduct::ProcessError] command exited error status
     def perform
-      variable_string = capitalized_params.map{ |key, value| %(export #{key}="#{value}";) }.join(" ")
+      variable_string = key_capitalized_params.map{ |key, value| %(export #{key}="#{value}";) }.join(" ")
 
       Array.wrap(@script).inject("") do |stdout, command|
         stdout << run_command("#{variable_string} #{command}")
@@ -35,10 +37,10 @@ module Paraduct
     end
 
     def job_name
-      capitalized_params.map { |key, value| "#{key}_#{value}" }.join("_")
+      key_capitalized_params.map { |key, value| "#{key}_#{value}" }.join("_")
     end
 
-    def capitalized_params
+    def key_capitalized_params
       self.class.capitalize_keys(@params)
     end
 
@@ -66,7 +68,7 @@ module Paraduct
     private
     def run_command(command)
       stdout, stderr, status = Open3.capture3(command)
-      raise ProcessError.new("#{stdout}\n#{stderr}", status) unless status.success?
+      raise Paraduct::ProcessError.new("#{stdout}\n#{stderr}", status) unless status.success?
       stdout
     end
   end
