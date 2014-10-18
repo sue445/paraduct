@@ -2,34 +2,59 @@ module Paraduct
   require "open3"
 
   class Runner
+    attr_reader :script, :params, :base_job_dir
+
+    def initialize(args={})
+      @script       = args[:script]
+      @params       = args[:params]
+      @base_job_dir = args[:base_job_dir]
+    end
+
+    def setup_dir
+      FileUtils.mkdir_p(job_dir) unless job_dir.exist?
+      self.class.copy_recursive(Paraduct.config.root_dir, job_dir)
+      Dir.chdir(job_dir)
+    end
+
     # run script with params
     # @param script [String, Array<String>] script file, script(s)
     # @param params [Hash{String => String}] key is capitalized and value is quoted (ex. foo=1 => FOO="1" )
     # @return [String] stdout
     # @raise [Paraduct::ProcessError] command exited error status
-    def self.perform(script, params)
-      variable_string = capitalize_keys(params).map{ |key, value| %(export #{key}="#{value}";) }.join(" ")
+    def perform
+      variable_string = capitalized_params.map{ |key, value| %(export #{key}="#{value}";) }.join(" ")
 
-      Array.wrap(script).inject("") do |stdout, command|
+      Array.wrap(@script).inject("") do |stdout, command|
         stdout << run_command("#{variable_string} #{command}")
         stdout
       end
     end
 
-    def self.parameterized_job_dir(base_job_dir, params)
-      Pathname(base_job_dir).join(job_name(params))
+    def job_dir
+      Pathname(@base_job_dir).join(job_name)
     end
 
-    def self.job_name(params)
-      capitalize_keys(params).map { |key, value| "#{key}_#{value}" }.join("_")
+    def job_name
+      capitalized_params.map { |key, value| "#{key}_#{value}" }.join("_")
     end
 
-    def self.run_command(command)
-      stdout, stderr, status = Open3.capture3(command)
-      raise ProcessError.new("#{stdout}\n#{stderr}", status) unless status.success?
-      stdout
+    def capitalized_params
+      self.class.capitalize_keys(@params)
     end
-    private_class_method :run_command
+
+    # @param source_dir      [Pathname]
+    # @param destination_dir [Pathname]
+    def self.copy_recursive(source_dir, destination_dir)
+      FileUtils.mkdir_p(destination_dir)
+      source_dir.children.each do |source_child_dir|
+        begin
+          FileUtils.cp_r(source_child_dir, destination_dir)
+        rescue ArgumentError => e
+          # TODO: refactoring
+          raise unless e.message =~ /^cannot copy directory .+ to itself /
+        end
+      end
+    end
 
     def self.capitalize_keys(params)
       params.inject({}) do |res, (key, value)|
@@ -37,6 +62,12 @@ module Paraduct
         res
       end
     end
-    private_class_method :capitalize_keys
+
+    private
+    def run_command(command)
+      stdout, stderr, status = Open3.capture3(command)
+      raise ProcessError.new("#{stdout}\n#{stderr}", status) unless status.success?
+      stdout
+    end
   end
 end

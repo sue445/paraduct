@@ -18,11 +18,15 @@ START matrix test
       end
 
       product_variables.each do |params|
-        threads << Thread.new(base_job_dir, script, params) do |_base_job_dir, _script, _params|
-          job_name = Paraduct::Runner.job_name(_params)
-          job_dir = setup_runner(_base_job_dir, _params)
+        runner = Paraduct::Runner.new(
+          script:       script,
+          params:       params,
+          base_job_dir: base_job_dir,
+        )
+        threads << Thread.new(runner) do |_runner|
+          _runner.setup_dir
           begin
-            stdout = Paraduct::Runner.perform(_script, _params)
+            stdout = _runner.perform
             successful = true
           rescue Paraduct::ProcessError => e
             stdout = e.message
@@ -31,15 +35,15 @@ START matrix test
 
           puts <<-EOS
 ======================================================
-params:   #{_params}
-job_name: #{job_name}
-job_dir:  #{job_dir}
+params:   #{_runner.params}
+job_name: #{_runner.job_name}
+job_dir:  #{_runner.job_dir}
 
 #{stdout}
           EOS
 
           test_responses << {
-            job_name:   job_name,
+            job_name:   _runner.job_name,
             successful: successful,
             stdout:     stdout,
           }
@@ -49,28 +53,5 @@ job_dir:  #{job_dir}
 
       test_responses
     end
-
-    # @param source_dir      [Pathname]
-    # @param destination_dir [Pathname]
-    def self.copy_recursive(source_dir, destination_dir)
-      FileUtils.mkdir_p(destination_dir)
-      source_dir.children.each do |source_child_dir|
-        begin
-          FileUtils.cp_r(source_child_dir, destination_dir)
-        rescue ArgumentError => e
-          # TODO: refactoring
-          raise unless e.message =~ /^cannot copy directory .+ to itself /
-        end
-      end
-    end
-
-    def self.setup_runner(base_job_dir, params)
-      job_dir = Paraduct::Runner.parameterized_job_dir(base_job_dir, params)
-      FileUtils.mkdir_p(job_dir) unless job_dir.exist?
-      copy_recursive(Paraduct.config.root_dir, job_dir)
-      Dir.chdir(job_dir)
-      job_dir
-    end
-    private_class_method :setup_runner
   end
 end
