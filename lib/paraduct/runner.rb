@@ -22,7 +22,7 @@ module Paraduct
     # @return [String] stdout
     # @raise [Paraduct::ProcessError] command exited error status
     def perform
-      variable_string = capitalized_params.map{ |key, value| %(export #{key}="#{value}";) }.join(" ")
+      variable_string = key_capitalized_params.map{ |key, value| %(export #{key}="#{value}";) }.join(" ")
 
       Array.wrap(@script).inject("") do |stdout, command|
         stdout << run_command("#{variable_string} #{command}")
@@ -35,10 +35,10 @@ module Paraduct
     end
 
     def job_name
-      capitalized_params.map { |key, value| "#{key}_#{value}" }.join("_")
+      key_capitalized_params.map { |key, value| "#{key}_#{value}" }.join("_")
     end
 
-    def capitalized_params
+    def key_capitalized_params
       self.class.capitalize_keys(@params)
     end
 
