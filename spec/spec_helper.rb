@@ -115,4 +115,9 @@ RSpec.configure do |config|
 =end
 
   config.order = :random
+
+  config.before do
+    # quiet
+    allow(Object).to receive(:puts)
+  end
 end
