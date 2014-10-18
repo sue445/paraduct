@@ -25,8 +25,20 @@ describe Paraduct::ParallelRunner do
         ]
       end
 
-      it { should include "RUBY=1.9\nDATABASE=mysql\n" }
-      it { should include "RUBY=2.0\nDATABASE=postgresql\n" }
+      it do
+        should match_array [
+          a_hash_including(
+            job_name:   "RUBY_1.9_DATABASE_mysql",
+            successful: true,
+            stdout:     "RUBY=1.9\nDATABASE=mysql\n"
+          ),
+          a_hash_including(
+            job_name:   "RUBY_2.0_DATABASE_postgresql",
+            successful: true,
+            stdout:     "RUBY=2.0\nDATABASE=postgresql\n"
+          )
+        ]
+      end
 
       describe "should create job directories" do
         before do
@@ -53,8 +65,20 @@ describe Paraduct::ParallelRunner do
         ]
       end
 
-      it { should include "RUBY=1.9 DATABASE=mysql\n" }
-      it { should include "RUBY=2.0 DATABASE=postgresql\n" }
+      it do
+        should match_array [
+          a_hash_including(
+            job_name:   "RUBY_1.9_DATABASE_mysql",
+            successful: true,
+            stdout:     "RUBY=1.9 DATABASE=mysql\n"
+          ),
+          a_hash_including(
+            job_name:   "RUBY_2.0_DATABASE_postgresql",
+            successful: true,
+            stdout:     "RUBY=2.0 DATABASE=postgresql\n"
+          )
+        ]
+      end
 
       describe "should create job directories" do
         before do

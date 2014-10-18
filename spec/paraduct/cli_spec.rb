@@ -8,33 +8,44 @@ describe Paraduct::CLI do
 
     include_context :within_temp_work_dir
 
-    let(:script){ "./script/build_success.sh" }
-    let(:product_variables) do
-      [
-        { "ruby" => "1.9.3", "database" => "mysql"     , "rails" => "3.2.0" },
-        { "ruby" => "1.9.3", "database" => "mysql"     , "rails" => "4.0.0" },
-        { "ruby" => "1.9.3", "database" => "mysql"     , "rails" => "4.1.0" },
-        { "ruby" => "1.9.3", "database" => "postgresql", "rails" => "3.2.0" },
-        { "ruby" => "1.9.3", "database" => "postgresql", "rails" => "4.0.0" },
-        { "ruby" => "1.9.3", "database" => "postgresql", "rails" => "4.1.0" },
-        { "ruby" => "2.0.0", "database" => "mysql"     , "rails" => "3.2.0" },
-        { "ruby" => "2.0.0", "database" => "mysql"     , "rails" => "4.0.0" },
-        { "ruby" => "2.0.0", "database" => "mysql"     , "rails" => "4.1.0" },
-        { "ruby" => "2.0.0", "database" => "postgresql", "rails" => "3.2.0" },
-        { "ruby" => "2.0.0", "database" => "postgresql", "rails" => "4.0.0" },
-        { "ruby" => "2.0.0", "database" => "postgresql", "rails" => "4.1.0" },
-        { "ruby" => "2.1.2", "database" => "mysql"     , "rails" => "3.2.0" },
-        { "ruby" => "2.1.2", "database" => "mysql"     , "rails" => "4.0.0" },
-        { "ruby" => "2.1.2", "database" => "mysql"     , "rails" => "4.1.0" },
-        { "ruby" => "2.1.2", "database" => "postgresql", "rails" => "3.2.0" },
-        { "ruby" => "2.1.2", "database" => "postgresql", "rails" => "4.0.0" },
-        { "ruby" => "2.1.2", "database" => "postgresql", "rails" => "4.1.0" },
-      ]
+    context "successful test" do
+      let(:script){ "./script/build_success.sh" }
+      let(:product_variables) do
+        [
+          { "ruby" => "1.9.3", "database" => "mysql"     , "rails" => "3.2.0" },
+          { "ruby" => "1.9.3", "database" => "mysql"     , "rails" => "4.0.0" },
+          { "ruby" => "1.9.3", "database" => "mysql"     , "rails" => "4.1.0" },
+          { "ruby" => "1.9.3", "database" => "postgresql", "rails" => "3.2.0" },
+          { "ruby" => "1.9.3", "database" => "postgresql", "rails" => "4.0.0" },
+          { "ruby" => "1.9.3", "database" => "postgresql", "rails" => "4.1.0" },
+          { "ruby" => "2.0.0", "database" => "mysql"     , "rails" => "3.2.0" },
+          { "ruby" => "2.0.0", "database" => "mysql"     , "rails" => "4.0.0" },
+          { "ruby" => "2.0.0", "database" => "mysql"     , "rails" => "4.1.0" },
+          { "ruby" => "2.0.0", "database" => "postgresql", "rails" => "3.2.0" },
+          { "ruby" => "2.0.0", "database" => "postgresql", "rails" => "4.0.0" },
+          { "ruby" => "2.0.0", "database" => "postgresql", "rails" => "4.1.0" },
+          { "ruby" => "2.1.2", "database" => "mysql"     , "rails" => "3.2.0" },
+          { "ruby" => "2.1.2", "database" => "mysql"     , "rails" => "4.0.0" },
+          { "ruby" => "2.1.2", "database" => "mysql"     , "rails" => "4.1.0" },
+          { "ruby" => "2.1.2", "database" => "postgresql", "rails" => "3.2.0" },
+          { "ruby" => "2.1.2", "database" => "postgresql", "rails" => "4.0.0" },
+          { "ruby" => "2.1.2", "database" => "postgresql", "rails" => "4.1.0" },
+        ]
+      end
+
+      it "should call perform_all" do
+        expect(Paraduct::ParallelRunner).to receive(:perform_all).with(script, product_variables){ [{successful: true}] }
+        subject
+      end
     end
 
-    it "should call perform_all" do
-      expect(Paraduct::ParallelRunner).to receive(:perform_all).with(script, product_variables)
-      subject
+    context "failure test" do
+      before do
+        allow(Paraduct.config).to receive(:script)   { %q(exit ${STATUS}) }
+        allow(Paraduct.config).to receive(:variables){ { status: [0, 1] } }
+      end
+
+      it { expect{ subject }.to raise_error Paraduct::TestFailureError }
     end
   end
 

@@ -1,17 +1,6 @@
 module Paraduct
   require "open3"
 
-  class ProcessError < StandardError
-    attr_reader :status
-
-    # @param message [String] stdout and stderr
-    # @param status  [Process::Status]
-    def initialize(message, status)
-      super(message)
-      @status = status
-    end
-  end
-
   class Runner
     # run script with params
     # @param script [String, Array<String>] script file, script(s)
@@ -28,8 +17,11 @@ module Paraduct
     end
 
     def self.parameterized_job_dir(base_job_dir, params)
-      dir_name = capitalize_keys(params).map{ |key, value| "#{key}_#{value}" }.join("_")
-      Pathname(base_job_dir).join(dir_name)
+      Pathname(base_job_dir).join(job_name(params))
+    end
+
+    def self.job_name(params)
+      capitalize_keys(params).map { |key, value| "#{key}_#{value}" }.join("_")
     end
 
     def self.run_command(command)
