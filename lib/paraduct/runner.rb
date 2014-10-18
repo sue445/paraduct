@@ -4,6 +4,10 @@ module Paraduct
   class Runner
     attr_reader :script, :params, :base_job_dir
 
+    # @param args
+    # @option args :script [String, Array<String>] script file, script(s)
+    # @option args :params [Hash{String => String}] key is capitalized and value is quoted (ex. foo=1 => FOO="1" )
+    # @option args :base_job_dir [String]
     def initialize(args={})
       @script       = args[:script]
       @params       = args[:params]
@@ -17,6 +21,7 @@ module Paraduct
     end
 
     # run script with params
+    # @return [String] stdout
     # @raise [Paraduct::ProcessError] command exited error status
     def perform
       variable_string = key_capitalized_params.map{ |key, value| %(export #{key}="#{value}";) }.join(" ")
