@@ -6,6 +6,7 @@ require "paraduct/configuration"
 require "paraduct/variable_converter"
 require "paraduct/runner"
 require "paraduct/parallel_runner"
+require "pathname"
 
 module Paraduct
   class << self
