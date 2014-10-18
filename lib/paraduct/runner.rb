@@ -17,9 +17,6 @@ module Paraduct
     end
 
     # run script with params
-    # @param script [String, Array<String>] script file, script(s)
-    # @param params [Hash{String => String}] key is capitalized and value is quoted (ex. foo=1 => FOO="1" )
-    # @return [String] stdout
     # @raise [Paraduct::ProcessError] command exited error status
     def perform
       variable_string = key_capitalized_params.map{ |key, value| %(export #{key}="#{value}";) }.join(" ")
