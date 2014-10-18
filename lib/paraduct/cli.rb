@@ -6,7 +6,6 @@ module Paraduct
     include Thor::Actions
 
     desc "test", "run matrix test"
-    default_task :test
     def test
       script = Paraduct.config.script
       raise "require script" if script.blank?
