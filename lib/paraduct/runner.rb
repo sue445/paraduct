@@ -66,7 +66,7 @@ module Paraduct
     private
     def run_command(command)
       stdout, stderr, status = Open3.capture3(command)
-      raise ProcessError.new("#{stdout}\n#{stderr}", status) unless status.success?
+      raise Paraduct::ProcessError.new("#{stdout}\n#{stderr}", status) unless status.success?
       stdout
     end
   end
