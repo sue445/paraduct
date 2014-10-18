@@ -2,7 +2,7 @@ module Paraduct
   class ParallelRunner
     # @param script            [String, Array<String>] script file, script(s)
     # @param product_variables [Array<Hash{String => String}>]
-    # @return [Array<String>] stdout messages of each job
+    # @return [Array<Hash>] test response of each job
     def self.perform_all(script, product_variables)
       threads = []
       test_responses = []
