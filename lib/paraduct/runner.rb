@@ -28,8 +28,11 @@ module Paraduct
     end
 
     def self.parameterized_job_dir(base_job_dir, params)
-      dir_name = capitalize_keys(params).map{ |key, value| "#{key}_#{value}" }.join("_")
-      Pathname(base_job_dir).join(dir_name)
+      Pathname(base_job_dir).join(job_name(params))
+    end
+
+    def self.job_name(params)
+      capitalize_keys(params).map { |key, value| "#{key}_#{value}" }.join("_")
     end
 
     def self.run_command(command)

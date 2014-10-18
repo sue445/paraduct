@@ -5,7 +5,7 @@ module Paraduct
     # @return [Array<String>] stdout messages of each job
     def self.perform_all(script, product_variables)
       threads = []
-      stdout_messages = []
+      test_responses = []
       base_job_dir = Paraduct.config.work_dir
       FileUtils.mkdir_p(base_job_dir) unless base_job_dir.exist?
 
@@ -19,28 +19,35 @@ START matrix test
 
       product_variables.each do |params|
         threads << Thread.new(base_job_dir, script, params) do |_base_job_dir, _script, _params|
+          job_name = Paraduct::Runner.job_name(_params)
           job_dir = setup_runner(_base_job_dir, _params)
-          stdout =
-            begin
-              Paraduct::Runner.perform(_script, _params)
-            rescue Paraduct::ProcessError => e
-              e.message
-            end
+          begin
+            stdout = Paraduct::Runner.perform(_script, _params)
+            successful = true
+          rescue Paraduct::ProcessError => e
+            stdout = e.message
+            successful = false
+          end
 
           puts <<-EOS
 ======================================================
-params: #{_params}
-job_dir: #{job_dir}
+params:   #{_params}
+job_name: #{job_name}
+job_dir:  #{job_dir}
 
 #{stdout}
           EOS
 
-          stdout_messages << stdout
+          test_responses << {
+            job_name:   job_name,
+            successful: successful,
+            stdout:     stdout,
+          }
         end
       end
       threads.map(&:join)
 
-      stdout_messages
+      test_responses
     end
 
     # @param source_dir      [Pathname]
