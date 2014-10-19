@@ -44,6 +44,10 @@ module Paraduct
       self.class.capitalize_keys(@params)
     end
 
+    def formatted_params
+      @params.map{ |key, value| "#{key}=#{value}" }.join(", ")
+    end
+
     # @param source_dir      [Pathname]
     # @param destination_dir [Pathname]
     def self.copy_recursive(source_dir, destination_dir)

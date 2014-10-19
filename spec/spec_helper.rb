@@ -17,6 +17,7 @@ require 'paraduct'
 require 'paraduct/cli'
 require 'rspec/collection_matchers'
 require 'rspec/temp_dir'
+require 'rspec/its'
 require 'pry'
 
 def spec_dir

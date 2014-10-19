@@ -96,4 +96,12 @@ DATABASE=mysql
     it { expect(copied_file).to be_exist }
     it { expect(not_copied_file).not_to be_exist }
   end
+
+  describe "#formatted_params" do
+    subject{ runner.formatted_params }
+
+    let(:params){ { "ruby" => "1.9", "database" => "mysql" } }
+
+    it{ should eq "ruby=1.9, database=mysql" }
+  end
 end

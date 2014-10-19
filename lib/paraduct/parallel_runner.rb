@@ -3,10 +3,10 @@ module Paraduct
     # run script with arguments
     # @param script            [String, Array<String>] script file, script(s)
     # @param product_variables [Array<Hash{String => String}>]
-    # @return [Array<Hash>] test response of each job
+    # @return [Paraduct::TestResponse]
     def self.perform_all(script, product_variables)
       threads = []
-      test_responses = []
+      test_response = Paraduct::TestResponse.new
       base_job_dir = Paraduct.config.work_dir
       FileUtils.mkdir_p(base_job_dir) unless base_job_dir.exist?
 
@@ -36,23 +36,25 @@ START matrix test
 
           puts <<-EOS
 ======================================================
-params:   #{_runner.params}
+params:   #{_runner.formatted_params}
 job_name: #{_runner.job_name}
 job_dir:  #{_runner.job_dir}
 
 #{stdout}
           EOS
 
-          test_responses << {
-            job_name:   _runner.job_name,
-            successful: successful,
-            stdout:     stdout,
-          }
+          test_response.jobs_push(
+            job_name:         _runner.job_name,
+            params:           _runner.params,
+            formatted_params: _runner.formatted_params,
+            successful:       successful,
+            stdout:           stdout,
+          )
         end
       end
       threads.map(&:join)
 
-      test_responses
+      test_response
     end
   end
 end
