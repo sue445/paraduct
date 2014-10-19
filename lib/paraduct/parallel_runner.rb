@@ -36,7 +36,7 @@ START matrix test
 
           puts <<-EOS
 ======================================================
-params:   #{_runner.params}
+params:   #{_runner.formatted_params}
 job_name: #{_runner.job_name}
 job_dir:  #{_runner.job_dir}
 
@@ -44,10 +44,11 @@ job_dir:  #{_runner.job_dir}
           EOS
 
           test_response.jobs_push(
-            job_name:   _runner.job_name,
-            params:     _runner.params,
-            successful: successful,
-            stdout:     stdout,
+            job_name:         _runner.job_name,
+            params:           _runner.params,
+            formatted_params: _runner.formatted_params,
+            successful:       successful,
+            stdout:           stdout,
           )
         end
       end

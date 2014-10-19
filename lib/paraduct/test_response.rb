@@ -26,11 +26,7 @@ module Paraduct
       if failure_count > 0
         message << "Failures:\n\n"
         @jobs.select{ |result| !result[:successful] }.each_with_index do |result, i|
-          formatted_params = result[:params].inject([]) { |array, (key, value)|
-            array << "#{key}=#{value}"
-            array
-          }.join(", ")
-          message << "  #{i + 1}) #{formatted_params}\n"
+          message << "  #{i + 1}) #{result[:formatted_params]}\n"
         end
         message << "\n"
       end

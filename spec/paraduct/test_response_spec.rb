@@ -44,8 +44,8 @@ describe Paraduct::TestResponse do
     context "when failure" do
       before do
         test_response.jobs_push(successful: true)
-        test_response.jobs_push(successful: false, params: { "ruby" => "1.9", "database" => "mysql" })
-        test_response.jobs_push(successful: false, params: { "ruby" => "2.0", "database" => "postgresql" })
+        test_response.jobs_push(successful: false, params: { "ruby" => "1.9", "database" => "mysql" }     , formatted_params: "ruby=1.9, database=mysql")
+        test_response.jobs_push(successful: false, params: { "ruby" => "2.0", "database" => "postgresql" }, formatted_params: "ruby=2.0, database=postgresql")
       end
 
       it do
