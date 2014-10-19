@@ -25,20 +25,23 @@ describe Paraduct::ParallelRunner do
         ]
       end
 
-      it do
-        should match_array [
-          a_hash_including(
-            job_name:   "RUBY_1.9_DATABASE_mysql",
-            successful: true,
-            stdout:     "RUBY=1.9\nDATABASE=mysql\n"
-          ),
-          a_hash_including(
-            job_name:   "RUBY_2.0_DATABASE_postgresql",
-            successful: true,
-            stdout:     "RUBY=2.0\nDATABASE=postgresql\n"
-          )
-        ]
-      end
+      its(:jobs){
+        should include(
+                 job_name:   "RUBY_1.9_DATABASE_mysql",
+                 params:     { "ruby" => "1.9", "database" => "mysql" },
+                 successful: true,
+                 stdout:     "RUBY=1.9\nDATABASE=mysql\n"
+               )
+      }
+
+      its(:jobs){
+        should include(
+                 job_name:   "RUBY_2.0_DATABASE_postgresql",
+                 params:     { "ruby" => "2.0", "database" => "postgresql" },
+                 successful: true,
+                 stdout:     "RUBY=2.0\nDATABASE=postgresql\n"
+               )
+      }
 
       describe "should create job directories" do
         before do
@@ -65,20 +68,23 @@ describe Paraduct::ParallelRunner do
         ]
       end
 
-      it do
-        should match_array [
-          a_hash_including(
-            job_name:   "RUBY_1.9_DATABASE_mysql",
-            successful: true,
-            stdout:     "RUBY=1.9 DATABASE=mysql\n"
-          ),
-          a_hash_including(
-            job_name:   "RUBY_2.0_DATABASE_postgresql",
-            successful: true,
-            stdout:     "RUBY=2.0 DATABASE=postgresql\n"
-          )
-        ]
-      end
+      its(:jobs){
+        should include(
+                 job_name:   "RUBY_1.9_DATABASE_mysql",
+                 params:     { "ruby" => "1.9", "database" => "mysql" },
+                 successful: true,
+                 stdout:     "RUBY=1.9 DATABASE=mysql\n"
+               )
+      }
+
+      its(:jobs){
+        should include(
+                 job_name:   "RUBY_2.0_DATABASE_postgresql",
+                 params:     { "ruby" => "2.0", "database" => "postgresql" },
+                 successful: true,
+                 stdout:     "RUBY=2.0 DATABASE=postgresql\n"
+               )
+      }
 
       describe "should create job directories" do
         before do

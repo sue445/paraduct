@@ -33,8 +33,14 @@ describe Paraduct::CLI do
         ]
       end
 
+      let(:test_response) do
+        test_response = Paraduct::TestResponse.new
+        test_response.jobs_push(successful: true)
+        test_response
+      end
+
       it "should call perform_all" do
-        expect(Paraduct::ParallelRunner).to receive(:perform_all).with(script, product_variables){ [{successful: true}] }
+        expect(Paraduct::ParallelRunner).to receive(:perform_all).with(script, product_variables){ test_response }
         subject
       end
     end

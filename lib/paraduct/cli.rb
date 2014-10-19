@@ -14,8 +14,8 @@ module Paraduct
       raise "require variables" if variables.blank?
 
       product_variables = Paraduct::VariableConverter.product(variables)
-      test_responses = Paraduct::ParallelRunner.perform_all(script, product_variables)
-      raise Paraduct::TestFailureError if test_responses.any?{ |response| response[:successful] == false }
+      test_response = Paraduct::ParallelRunner.perform_all(script, product_variables)
+      raise Paraduct::TestFailureError if test_response.failure?
     end
 
     desc "generate", "generate .paraduct.yml"

@@ -7,6 +7,7 @@ require "paraduct/variable_converter"
 require "paraduct/runner"
 require "paraduct/parallel_runner"
 require "paraduct/errors"
+require "paraduct/test_response"
 require "pathname"
 
 module Paraduct
