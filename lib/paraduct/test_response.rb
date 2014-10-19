@@ -21,7 +21,7 @@ module Paraduct
       successful_count = @jobs.select{ |result| result[:successful] }.count
       failure_count = all_count - successful_count
 
-      message = ""
+      message = "======================================================\n"
 
       if failure_count > 0
         message << "Failures:\n\n"

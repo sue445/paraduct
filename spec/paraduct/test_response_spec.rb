@@ -35,6 +35,7 @@ describe Paraduct::TestResponse do
 
       it do
         should eq <<-EOS
+======================================================
 3 jobs, 0 failures, 3 passed
         EOS
       end
@@ -49,6 +50,7 @@ describe Paraduct::TestResponse do
 
       it do
         should eq <<-EOS
+======================================================
 Failures:
 
   1) ruby=1.9, database=mysql
