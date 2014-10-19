@@ -25,23 +25,23 @@ describe Paraduct::ParallelRunner do
         ]
       end
 
-      its(:jobs){
+      its(:jobs) do
         should include(
                  job_name:   "RUBY_1.9_DATABASE_mysql",
                  params:     { "ruby" => "1.9", "database" => "mysql" },
                  successful: true,
                  stdout:     "RUBY=1.9\nDATABASE=mysql\n"
                )
-      }
+      end
 
-      its(:jobs){
+      its(:jobs) do
         should include(
                  job_name:   "RUBY_2.0_DATABASE_postgresql",
                  params:     { "ruby" => "2.0", "database" => "postgresql" },
                  successful: true,
                  stdout:     "RUBY=2.0\nDATABASE=postgresql\n"
                )
-      }
+      end
 
       describe "should create job directories" do
         before do
@@ -68,23 +68,23 @@ describe Paraduct::ParallelRunner do
         ]
       end
 
-      its(:jobs){
+      its(:jobs) do
         should include(
                  job_name:   "RUBY_1.9_DATABASE_mysql",
                  params:     { "ruby" => "1.9", "database" => "mysql" },
                  successful: true,
                  stdout:     "RUBY=1.9 DATABASE=mysql\n"
                )
-      }
+      end
 
-      its(:jobs){
+      its(:jobs) do
         should include(
                  job_name:   "RUBY_2.0_DATABASE_postgresql",
                  params:     { "ruby" => "2.0", "database" => "postgresql" },
                  successful: true,
                  stdout:     "RUBY=2.0 DATABASE=postgresql\n"
                )
-      }
+      end
 
       describe "should create job directories" do
         before do

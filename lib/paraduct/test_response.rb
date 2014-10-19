@@ -30,7 +30,7 @@ module Paraduct
             array << "#{key}=#{value}"
             array
           }.join(", ")
-          message << "  #{i+1}) #{formatted_params}\n"
+          message << "  #{i + 1}) #{formatted_params}\n"
         end
         message << "\n"
       end
