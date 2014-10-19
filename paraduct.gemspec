@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["sue445"]
   spec.email         = ["sue445@sue445.net"]
   spec.summary       = %q{matrix test runner}
-  spec.description   = %q{matrix test runner}
+  spec.description   = %q{Paraduct(parallel + parameterize + product) is matrix test runner}
   spec.homepage      = "https://github.com/sue445/paraduct"
   spec.license       = "MIT"
 
