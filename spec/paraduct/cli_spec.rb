@@ -3,6 +3,16 @@ describe Paraduct::CLI do
 
   let(:args){ [command] }
 
+  describe "#version" do
+    %w(version --version).each do |_command|
+      context "with #{_command}" do
+        let(:command){ _command }
+
+        it { expect{ subject }.to output("#{Paraduct::VERSION}\n").to_stdout }
+      end
+    end
+  end
+
   describe "#test" do
     let(:command){ "test" }
 

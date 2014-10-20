@@ -5,6 +5,14 @@ module Paraduct
   class CLI < Thor
     include Thor::Actions
 
+    class_option :version, type: :boolean
+
+    desc "version", "Show paraduct version"
+    def version
+      puts Paraduct::VERSION
+    end
+    default_task :version
+
     desc "test", "run matrix test"
     def test
       script = Paraduct.config.script
