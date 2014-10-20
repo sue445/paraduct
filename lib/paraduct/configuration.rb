@@ -20,6 +20,11 @@ module Paraduct
       @config["script"]
     end
 
+    # @return [Integer]
+    def max_threads
+      @config["max_threads"] || 4
+    end
+
     # @return [Pathname]
     def work_dir
       _work_dir = @config["work_dir"] || "tmp/paraduct_workspace"
