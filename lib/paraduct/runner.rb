@@ -22,7 +22,7 @@ module Paraduct
 
     # run script with params
     # @return [String] stdout
-    # @raise [Paraduct::ProcessError] command exited error status
+    # @raise [Paraduct::Errors::ProcessError] command exited error status
     def perform
       variable_string = key_capitalized_params.map{ |key, value| %(export #{key}="#{value}";) }.join(" ")
 
@@ -72,7 +72,7 @@ module Paraduct
     private
     def run_command(command)
       stdout, stderr, status = Open3.capture3(command)
-      raise Paraduct::ProcessError.new("#{stdout}\n#{stderr}", status) unless status.success?
+      raise Paraduct::Errors::ProcessError.new("#{stdout}\n#{stderr}", status) unless status.success?
       stdout
     end
   end

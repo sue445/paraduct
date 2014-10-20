@@ -16,7 +16,7 @@ module Paraduct
       product_variables = Paraduct::VariableConverter.product(variables)
       test_response = Paraduct::ParallelRunner.perform_all(script, product_variables)
       puts test_response.detail_message
-      raise Paraduct::TestFailureError if test_response.failure?
+      raise Paraduct::Errors::TestFailureError if test_response.failure?
     end
 
     desc "generate", "generate .paraduct.yml"

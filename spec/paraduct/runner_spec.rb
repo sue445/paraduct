@@ -44,7 +44,7 @@ DATABASE=mysql
           EOS
         end
 
-        it { expect{ subject }.to raise_error(Paraduct::ProcessError, stdout) }
+        it { expect{ subject }.to raise_error(Paraduct::Errors::ProcessError, stdout) }
       end
     end
 

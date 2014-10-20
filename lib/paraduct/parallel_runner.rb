@@ -29,7 +29,7 @@ START matrix test
           begin
             stdout = _runner.perform
             successful = true
-          rescue Paraduct::ProcessError => e
+          rescue Paraduct::Errors::ProcessError => e
             stdout = e.message
             successful = false
           end
