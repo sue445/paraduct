@@ -51,7 +51,7 @@ describe Paraduct::CLI do
         allow(Paraduct.config).to receive(:variables){ { status: [0, 1] } }
       end
 
-      it { expect{ subject }.to raise_error Paraduct::TestFailureError }
+      it { expect{ subject }.to raise_error Paraduct::Errors::TestFailureError }
     end
   end
 

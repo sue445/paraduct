@@ -10,12 +10,12 @@ module Paraduct
       base_job_dir = Paraduct.config.work_dir
       FileUtils.mkdir_p(base_job_dir) unless base_job_dir.exist?
 
-      puts <<-EOS
+      Paraduct.logger.info <<-EOS
 ======================================================
 START matrix test
       EOS
       product_variables.each do |params|
-        puts "params: #{params}"
+        Paraduct.logger.info "params: #{params}"
       end
 
       product_variables.each do |params|
@@ -29,12 +29,12 @@ START matrix test
           begin
             stdout = _runner.perform
             successful = true
-          rescue Paraduct::ProcessError => e
+          rescue Paraduct::Errors::ProcessError => e
             stdout = e.message
             successful = false
           end
 
-          puts <<-EOS
+          Paraduct.logger.info <<-EOS
 ======================================================
 params:   #{_runner.formatted_params}
 job_name: #{_runner.job_name}

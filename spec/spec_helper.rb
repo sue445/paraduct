@@ -119,6 +119,6 @@ RSpec.configure do |config|
 
   config.before do
     # quiet
-    allow(Object).to receive(:puts)
+    allow(Paraduct.logger).to receive(:info)
   end
 end
