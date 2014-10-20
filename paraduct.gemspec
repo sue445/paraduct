@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "activesupport"
   spec.add_dependency "thor"
+  spec.add_dependency "thread"
 
   spec.add_development_dependency "bundler", ">= 1.5"
   spec.add_development_dependency "codeclimate-test-reporter"

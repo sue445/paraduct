@@ -8,3 +8,4 @@ variables:
   name2:
     - value2a
     - value2b
+max_threads: 4

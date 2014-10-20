@@ -1,11 +1,12 @@
 module Paraduct
+  require "thread/pool"
+
   class ParallelRunner
     # run script with arguments
     # @param script            [String, Array<String>] script file, script(s)
     # @param product_variables [Array<Hash{String => String}>]
     # @return [Paraduct::TestResponse]
     def self.perform_all(script, product_variables)
-      threads = []
       test_response = Paraduct::TestResponse.new
       base_job_dir = Paraduct.config.work_dir
       FileUtils.mkdir_p(base_job_dir) unless base_job_dir.exist?
@@ -18,41 +19,47 @@ START matrix test
         Paraduct.logger.info "params: #{params}"
       end
 
-      product_variables.each do |params|
-        runner = Paraduct::Runner.new(
-          script:       script,
-          params:       params,
-          base_job_dir: base_job_dir,
-        )
-        threads << Thread.new(runner) do |_runner|
-          _runner.setup_dir
-          begin
-            stdout = _runner.perform
-            successful = true
-          rescue Paraduct::Errors::ProcessError => e
-            stdout = e.message
-            successful = false
-          end
+      pool = Thread.pool(Paraduct.config.max_threads)
+      begin
+        product_variables.each do |params|
+          pool.process do
+            runner = Paraduct::Runner.new(
+              script:       script,
+              params:       params,
+              base_job_dir: base_job_dir,
+            )
 
-          Paraduct.logger.info <<-EOS
+            runner.setup_dir
+            begin
+              stdout = runner.perform
+              successful = true
+            rescue Paraduct::Errors::ProcessError => e
+              stdout = e.message
+              successful = false
+            end
+
+            Paraduct.logger.info <<-EOS
 ======================================================
-params:   #{_runner.formatted_params}
-job_name: #{_runner.job_name}
-job_dir:  #{_runner.job_dir}
+params:   #{runner.formatted_params}
+job_name: #{runner.job_name}
+job_dir:  #{runner.job_dir}
 
-#{stdout}
-          EOS
+            #{stdout}
+            EOS
 
-          test_response.jobs_push(
-            job_name:         _runner.job_name,
-            params:           _runner.params,
-            formatted_params: _runner.formatted_params,
-            successful:       successful,
-            stdout:           stdout,
-          )
+            test_response.jobs_push(
+              job_name:         runner.job_name,
+              params:           runner.params,
+              formatted_params: runner.formatted_params,
+              successful:       successful,
+              stdout:           stdout,
+            )
+          end
         end
+
+      ensure
+        pool.shutdown
       end
-      threads.map(&:join)
 
       test_response
     end
