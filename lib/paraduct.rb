@@ -17,5 +17,9 @@ module Paraduct
       Paraduct::Configuration.instance
     end
     alias :config :configuration
+
+    def logger
+      @logger ||= ActiveSupport::Logger.new(STDOUT)
+    end
   end
 end

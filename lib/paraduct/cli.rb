@@ -15,7 +15,7 @@ module Paraduct
 
       product_variables = Paraduct::VariableConverter.product(variables)
       test_response = Paraduct::ParallelRunner.perform_all(script, product_variables)
-      puts test_response.detail_message
+      Paraduct.logger.info test_response.detail_message
       raise Paraduct::Errors::TestFailureError if test_response.failure?
     end
 
