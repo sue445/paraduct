@@ -10,7 +10,8 @@ Paraduct (**parallel** + **parameterize** + **product**) is matrix test runner
 [![Stories in Ready](https://badge.waffle.io/sue445/paraduct.svg?label=ready&title=Ready)](http://waffle.io/sue445/paraduct)
 
 ## Requirements
-ruby 1.9+
+* ruby 1.9+
+* rsync
 
 ## Installation
 
