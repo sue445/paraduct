@@ -7,22 +7,26 @@ module Paraduct
 
     # @return [Pathname]
     def variables
-      config_data["variables"]
+      config_data[:variables]
     end
 
     # @return [String, Array<String>]
     def script
-      config_data["script"]
+      config_data[:script]
     end
 
     # @return [Integer]
     def max_threads
-      config_data["max_threads"] || 4
+      config_data[:max_threads] || 4
+    end
+
+    def rsync_option
+      config_data[:rsync_option] || {}
     end
 
     # @return [Pathname]
     def work_dir
-      _work_dir = config_data["work_dir"] || "tmp/paraduct_workspace"
+      _work_dir = config_data[:work_dir] || "tmp/paraduct_workspace"
       root_dir.join(_work_dir)
     end
 
@@ -39,7 +43,7 @@ module Paraduct
     private
 
     def config_data
-      @config_data ||= YAML.load_file(config_file)
+      @config_data ||= YAML.load_file(config_file).with_indifferent_access
     end
   end
 end

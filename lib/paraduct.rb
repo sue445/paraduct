@@ -8,6 +8,7 @@ module Paraduct
   autoload :Errors           , 'paraduct/errors'
   autoload :ParallelRunner   , 'paraduct/parallel_runner'
   autoload :Runner           , 'paraduct/runner'
+  autoload :SyncUtils        , 'paraduct/sync_utils'
   autoload :TestResponse     , 'paraduct/test_response'
   autoload :VariableConverter, 'paraduct/variable_converter'
   autoload :Version          , 'paraduct/version'

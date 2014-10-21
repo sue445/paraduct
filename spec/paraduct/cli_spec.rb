@@ -17,6 +17,7 @@ describe Paraduct::CLI do
     let(:command){ "test" }
 
     include_context :stub_configuration
+    include_context :within_temp_dir
 
     context "successful test" do
       let(:config_data) do
@@ -70,21 +71,19 @@ describe Paraduct::CLI do
   describe "#generate" do
     let(:command){ "generate" }
 
-    include_context "uses temp dir"
-
-    around do |example|
-      Dir.chdir(temp_dir) do
-        example.run
-      end
-    end
+    include_context :within_temp_dir
 
     before do
       # exercise
       subject
     end
 
-    let(:generated_config_file){ temp_dir_path.join(".paraduct.yml") }
+    %w(.paraduct.yml .paraduct_rsync_exclude.txt).each do |template_file|
+      describe "whether copy #{template_file}" do
+        let(:generated_config_file){ temp_dir_path.join(template_file) }
 
-    it { expect(generated_config_file).to be_exist }
+        it { expect(generated_config_file).to be_exist }
+      end
+    end
   end
 end
