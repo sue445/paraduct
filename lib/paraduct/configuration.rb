@@ -5,29 +5,24 @@ module Paraduct
   class Configuration
     include Singleton
 
-    def initialize
-      raise "not found .paraduct.yml" unless config_file.exist?
-      @config = YAML.load_file(config_file)
-    end
-
     # @return [Pathname]
     def variables
-      @config["variables"]
+      config_data["variables"]
     end
 
     # @return [String, Array<String>]
     def script
-      @config["script"]
+      config_data["script"]
     end
 
     # @return [Integer]
     def max_threads
-      @config["max_threads"] || 4
+      config_data["max_threads"] || 4
     end
 
     # @return [Pathname]
     def work_dir
-      _work_dir = @config["work_dir"] || "tmp/paraduct_workspace"
+      _work_dir = config_data["work_dir"] || "tmp/paraduct_workspace"
       root_dir.join(_work_dir)
     end
 
@@ -39,6 +34,12 @@ module Paraduct
     # @return [Pathname]
     def root_dir
       Pathname.pwd
+    end
+
+    private
+
+    def config_data
+      @config_data ||= YAML.load_file(config_file)
     end
   end
 end

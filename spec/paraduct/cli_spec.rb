@@ -16,30 +16,27 @@ describe Paraduct::CLI do
   describe "#test" do
     let(:command){ "test" }
 
-    include_context :within_temp_work_dir
+    include_context :stub_configuration
 
     context "successful test" do
+      let(:config_data) do
+        {
+          script: "./script/build_success.sh",
+          work_dir: "tmp/paraduct_workspace",
+          variables: {
+            ruby:     ["1.9.3", "2.0.0"],
+            database: ["mysql", "postgresql"],
+          },
+        }
+      end
+
       let(:script){ "./script/build_success.sh" }
       let(:product_variables) do
         [
-          { "ruby" => "1.9.3", "database" => "mysql"     , "rails" => "3.2.0" },
-          { "ruby" => "1.9.3", "database" => "mysql"     , "rails" => "4.0.0" },
-          { "ruby" => "1.9.3", "database" => "mysql"     , "rails" => "4.1.0" },
-          { "ruby" => "1.9.3", "database" => "postgresql", "rails" => "3.2.0" },
-          { "ruby" => "1.9.3", "database" => "postgresql", "rails" => "4.0.0" },
-          { "ruby" => "1.9.3", "database" => "postgresql", "rails" => "4.1.0" },
-          { "ruby" => "2.0.0", "database" => "mysql"     , "rails" => "3.2.0" },
-          { "ruby" => "2.0.0", "database" => "mysql"     , "rails" => "4.0.0" },
-          { "ruby" => "2.0.0", "database" => "mysql"     , "rails" => "4.1.0" },
-          { "ruby" => "2.0.0", "database" => "postgresql", "rails" => "3.2.0" },
-          { "ruby" => "2.0.0", "database" => "postgresql", "rails" => "4.0.0" },
-          { "ruby" => "2.0.0", "database" => "postgresql", "rails" => "4.1.0" },
-          { "ruby" => "2.1.2", "database" => "mysql"     , "rails" => "3.2.0" },
-          { "ruby" => "2.1.2", "database" => "mysql"     , "rails" => "4.0.0" },
-          { "ruby" => "2.1.2", "database" => "mysql"     , "rails" => "4.1.0" },
-          { "ruby" => "2.1.2", "database" => "postgresql", "rails" => "3.2.0" },
-          { "ruby" => "2.1.2", "database" => "postgresql", "rails" => "4.0.0" },
-          { "ruby" => "2.1.2", "database" => "postgresql", "rails" => "4.1.0" },
+          { "ruby" => "1.9.3", "database" => "mysql"      },
+          { "ruby" => "1.9.3", "database" => "postgresql" },
+          { "ruby" => "2.0.0", "database" => "mysql"      },
+          { "ruby" => "2.0.0", "database" => "postgresql" },
         ]
       end
 
@@ -56,9 +53,14 @@ describe Paraduct::CLI do
     end
 
     context "failure test" do
-      before do
-        allow(Paraduct.config).to receive(:script)   { %q(exit ${STATUS}) }
-        allow(Paraduct.config).to receive(:variables){ { status: [0, 1] } }
+      let(:config_data) do
+        {
+          script: %q(exit ${STATUS}),
+          work_dir: "tmp/paraduct_workspace",
+          variables: {
+            status: [0, 1],
+          },
+        }
       end
 
       it { expect{ subject }.to raise_error Paraduct::Errors::TestFailureError }
