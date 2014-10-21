@@ -10,7 +10,7 @@ module Paraduct
       rsync_options = %W(
         --recursive
         --delete
-        --exclude-from=#{Paraduct.config.rsync_option["exclude_from"]}
+        --exclude-from=#{Paraduct.config.rsync_option[:exclude_from]}
       )
       result = Rsync.run(source_dir.to_s + "/", destination_dir, rsync_options)
       raise result.error unless result.success?
