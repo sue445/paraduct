@@ -2,7 +2,16 @@ describe Paraduct::SyncUtils do
   describe "#copy_recursive" do
     subject{ Paraduct::SyncUtils.copy_recursive(source_dir, destination_dir) }
 
-    include_context "uses temp dir"
+    include_context :within_temp_dir
+    include_context :stub_configuration
+
+    let(:config_data) do
+      {
+        rsync_option: {
+          exclude_from: ".paraduct_rsync_exclude.txt",
+        },
+      }
+    end
 
     let(:source_dir)     { temp_dir_path }
     let(:destination_dir){ temp_dir_path.join("tmp/paraduct_workspace/RUBY_1.9_DATABASE_mysql") }
@@ -12,7 +21,8 @@ describe Paraduct::SyncUtils do
     before do
       # setup
       FileUtils.cp_r(spec_dir.join("script/tmp/paraduct_workspace"), source_dir)
-      FileUtils.cp_r(spec_dir.join("script/build_success.sh"), source_dir)
+      FileUtils.cp(spec_dir.join("script/build_success.sh"), source_dir)
+      FileUtils.cp(spec_dir.join(".paraduct_rsync_exclude.txt"), source_dir)
 
       # exercise
       subject

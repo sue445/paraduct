@@ -13,3 +13,5 @@ variables:
     - 4.0.0
     - 4.1.0
 max_threads: 4
+rsync_option:
+  exclude_from: .paraduct_rsync_exclude.txt

@@ -17,6 +17,7 @@ describe Paraduct::CLI do
     let(:command){ "test" }
 
     include_context :stub_configuration
+    include_context :within_temp_dir
 
     context "successful test" do
       let(:config_data) do

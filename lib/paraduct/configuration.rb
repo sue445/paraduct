@@ -20,6 +20,10 @@ module Paraduct
       config_data["max_threads"] || 4
     end
 
+    def rsync_option
+      config_data["rsync_option"] || {}
+    end
+
     # @return [Pathname]
     def work_dir
       _work_dir = config_data["work_dir"] || "tmp/paraduct_workspace"

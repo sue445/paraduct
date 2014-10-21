@@ -1,6 +1,4 @@
 shared_context :stub_configuration do
-  include_context :within_temp_dir
-
   before do
     allow_any_instance_of(Paraduct::Configuration).to receive(:config_data){ config_data.with_indifferent_access }
   end
