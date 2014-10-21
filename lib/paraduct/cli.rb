@@ -30,6 +30,7 @@ module Paraduct
     desc "generate", "generate .paraduct.yml"
     def generate
       template(".paraduct.yml")
+      template(".paraduct_rsync_exclude.txt")
     end
 
     def self.source_root
