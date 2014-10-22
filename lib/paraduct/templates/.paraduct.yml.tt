@@ -9,3 +9,5 @@ variables:
     - value2a
     - value2b
 max_threads: 4
+rsync_option:
+  exclude_from: .paraduct_rsync_exclude.txt
