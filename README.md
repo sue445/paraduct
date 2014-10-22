@@ -42,11 +42,13 @@ Commands:
 ```bash  
 $ paraduct generate
       create  .paraduct.yml
+      create  .paraduct_rsync_exclude.txt
 ```
 
 ### 2. Customize .paraduct.yml
 ```bash
 $ vi .paraduct.yml
+$ vi .paraduct_rsync_exclude.txt
 ```
 
 ### 3. Run test
@@ -67,6 +69,8 @@ variables:
     - value2a
     - value2b
 max_threads: 4
+rsync_option:
+  exclude_from: .paraduct_rsync_exclude.txt
 ```
 
 ### script
@@ -92,6 +96,9 @@ value1b | value2b | NAME1_value1b_NAME2_value2b   | tmp/paraduct_workspace/NAME1
 
 ### max_threads
 maximum concurrent execution number of jobs
+
+### rsync_option
+support only `exclude-from`
 
 ## Contributing
 
