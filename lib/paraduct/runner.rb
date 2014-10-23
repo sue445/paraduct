@@ -39,7 +39,7 @@ module Paraduct
     end
 
     def job_name
-      key_capitalized_params.map { |key, value| "#{key}_#{value}" }.join("_")
+      key_capitalized_params.map { |key, value| "#{key}_#{value}" }.join("_").gsub(%r([/ ]), "_")
     end
 
     def key_capitalized_params
