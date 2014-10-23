@@ -75,4 +75,20 @@ DATABASE=mysql
 
     it{ should eq "ruby=1.9, database=mysql" }
   end
+
+  describe "#job_name" do
+    subject{ runner.job_name }
+
+    context "basic case" do
+      let(:params) { { "ruby" => "1.9", "database" => "mysql" } }
+
+      it { should eq "RUBY_1.9_DATABASE_mysql" }
+    end
+
+    context "containing slash" do
+      let(:params) { { "ruby" => "1.9", "gemfile" => "gemfiles/rails3_2.gemfile" } }
+
+      it { should eq "RUBY_1.9_GEMFILE_gemfiles_rails3_2.gemfile" }
+    end
+  end
 end
