@@ -3,7 +3,7 @@ module Paraduct
   require "open3"
 
   class Runner
-    attr_reader :script, :params, :base_job_dir
+    attr_reader :script, :params, :base_job_dir, :logger
 
     # @param args
     # @option args :script [String, Array<String>] script file, script(s)
@@ -13,7 +13,7 @@ module Paraduct
       @script       = args[:script]
       @params       = args[:params]
       @base_job_dir = args[:base_job_dir]
-      @color        = Paraduct::Runner.next_color
+      @logger       = Paraduct::ThreadLogger.new
     end
 
     def setup_dir
@@ -57,37 +57,13 @@ module Paraduct
       end
     end
 
-    COLORS = [
-      :cyan,
-      :yellow,
-      :green,
-      :magenta,
-      :red,
-      :blue,
-      :light,
-      :cyan,
-      :light_yellow,
-      :light_green,
-      :light_magenta,
-      :light_red,
-      :light_blue,
-    ]
-    def self.next_color
-      @@color_index ||= -1
-      @@color_index = (@@color_index + 1) % COLORS.length
-      COLORS[@@color_index]
-    end
-
     private
     def run_command(command)
-      thread_id = Thread.current.object_id.to_s
-      console_label = "[#{thread_id.colorize(@color)}]"
-
       lines = ""
 
       IO.popen(command) do |io|
         while line = io.gets
-          Paraduct.logger.info "#{console_label} #{line.strip}"
+          @logger.info(line)
           lines << line
         end
       end
