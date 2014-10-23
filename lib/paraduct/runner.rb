@@ -57,15 +57,25 @@ module Paraduct
       end
     end
 
+    COLORS = [
+      :cyan,
+      :yellow,
+      :green,
+      :magenta,
+      :red,
+      :blue,
+      :light,
+      :cyan,
+      :light_yellow,
+      :light_green,
+      :light_magenta,
+      :light_red,
+      :light_blue,
+    ]
     def self.next_color
       @@color_index ||= -1
-      @@color_index = (@@color_index + 1) % colors.length
-      colors[@@color_index]
-    end
-
-    def self.colors
-      @@colors ||= %w( cyan yellow green magenta red blue light_cyan light_yellow
-          light_green light_magenta light_red light_blue ).map(&:to_sym)
+      @@color_index = (@@color_index + 1) % COLORS.length
+      COLORS[@@color_index]
     end
 
     private
