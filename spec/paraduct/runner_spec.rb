@@ -4,19 +4,21 @@ describe Paraduct::Runner do
       script:       script,
       params:       params,
       base_job_dir: base_job_dir,
+      job_id:       job_id,
     )
   end
 
   let(:base_job_dir){ "/tmp/jobs" }
   let(:script)      { "" }
   let(:params)      { {} }
+  let(:job_id)      { 1 }
 
   describe "#perform" do
     subject{ runner.perform }
 
     let(:script) { "./script/build_success.sh" }
     let(:params) { { "ruby" => "1.9", "database" => "mysql" } }
-    let(:command){ 'export RUBY="1.9"; export DATABASE="mysql"; ./script/build_success.sh' }
+    let(:command){ 'export RUBY="1.9"; export DATABASE="mysql"; export JOB_ID="1"; export JOB_NAME="RUBY_1.9_DATABASE_mysql"; ./script/build_success.sh' }
 
     context "with mock system" do
       it "script is call with capitalized variable" do

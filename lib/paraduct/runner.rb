@@ -13,6 +13,7 @@ module Paraduct
       @script       = args[:script]
       @params       = args[:params]
       @base_job_dir = args[:base_job_dir]
+      @job_id       = args[:job_id]
       @logger       = Paraduct::ThreadLogger.new
     end
 
@@ -26,7 +27,8 @@ module Paraduct
     # @return [String] stdout
     # @raise [Paraduct::Errors::ProcessError] command exited error status
     def perform
-      variable_string = key_capitalized_params.map{ |key, value| %(export #{key}="#{value}";) }.join(" ")
+      export_variables = key_capitalized_params.merge("JOB_ID" => @job_id, "JOB_NAME" => job_name)
+      variable_string = export_variables.map{ |key, value| %(export #{key}="#{value}";) }.join(" ")
 
       Array.wrap(@script).inject("") do |stdout, command|
         stdout << run_command("#{variable_string} #{command}")
