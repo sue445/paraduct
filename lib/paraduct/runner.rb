@@ -1,4 +1,5 @@
 module Paraduct
+  require "colorize"
   require "open3"
 
   class Runner
@@ -12,6 +13,7 @@ module Paraduct
       @script       = args[:script]
       @params       = args[:params]
       @base_job_dir = args[:base_job_dir]
+      @color        = Paraduct::Runner.next_color
     end
 
     def setup_dir
@@ -55,11 +57,45 @@ module Paraduct
       end
     end
 
+    COLORS = [
+      :cyan,
+      :yellow,
+      :green,
+      :magenta,
+      :red,
+      :blue,
+      :light,
+      :cyan,
+      :light_yellow,
+      :light_green,
+      :light_magenta,
+      :light_red,
+      :light_blue,
+    ]
+    def self.next_color
+      @@color_index ||= -1
+      @@color_index = (@@color_index + 1) % COLORS.length
+      COLORS[@@color_index]
+    end
+
     private
     def run_command(command)
-      stdout, stderr, status = Open3.capture3(command)
-      raise Paraduct::Errors::ProcessError.new("#{stdout}\n#{stderr}", status) unless status.success?
-      stdout
+      thread_id = Thread.current.object_id.to_s
+      console_label = "[#{thread_id.colorize(@color)}]"
+
+      lines = ""
+
+      IO.popen(command) do |io|
+        while line = io.gets
+          Paraduct.logger.info "#{console_label} #{line.strip}"
+          lines << line
+        end
+      end
+
+      status = $?
+      raise Paraduct::Errors::ProcessError.new(lines, status) unless status.success?
+
+      lines
     end
   end
 end

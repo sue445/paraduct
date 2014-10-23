@@ -16,7 +16,7 @@ module Paraduct
 START matrix test
       EOS
       product_variables.each do |params|
-        Paraduct.logger.info "params: #{params}"
+        Paraduct.logger.info "params: #{params.map{ |key, value| "#{key}=#{value}" }.join(", ")}"
       end
 
       pool = Thread.pool(Paraduct.config.max_threads)
