@@ -2,9 +2,8 @@ module Paraduct
   class ThreadLogger < ::Logger
     def initialize(logdev = STDOUT)
       super(logdev)
-      thread_id = Thread.current.object_id.to_s
       color = Paraduct::ThreadLogger.next_color
-      @label = "[#{thread_id.colorize(color)}]"
+      @label = "[#{object_id.to_s.colorize(color)}]"
       @formatter = ActiveSupport::Logger::SimpleFormatter.new
     end
 
