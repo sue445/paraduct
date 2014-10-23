@@ -40,7 +40,6 @@ describe Paraduct::Runner do
           <<-EOS
 RUBY=1.9
 DATABASE=mysql
-
           EOS
         end
 
@@ -75,5 +74,13 @@ DATABASE=mysql
     let(:params){ { "ruby" => "1.9", "database" => "mysql" } }
 
     it{ should eq "ruby=1.9, database=mysql" }
+  end
+
+  describe "#next_color" do
+    it "can call many times" do
+      20.times do
+        expect(Paraduct::Runner.next_color).to be_an_instance_of Symbol
+      end
+    end
   end
 end
