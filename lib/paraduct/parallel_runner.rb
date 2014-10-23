@@ -18,11 +18,12 @@ START matrix test
 
       pool = Thread.pool(Paraduct.config.max_threads)
       begin
-        product_variables.each do |params|
+        product_variables.each_with_index do |params, index|
           runner = Paraduct::Runner.new(
             script:       script,
             params:       params,
             base_job_dir: base_job_dir,
+            job_id:       index + 1,
           )
           runner.logger.info "[START] params: #{runner.formatted_params}"
           pool.process do
