@@ -15,20 +15,17 @@ module Paraduct
 ======================================================
 START matrix test
       EOS
-      product_variables.each do |params|
-        Paraduct.logger.info "params: #{params.map{ |key, value| "#{key}=#{value}" }.join(", ")}"
-      end
 
       pool = Thread.pool(Paraduct.config.max_threads)
       begin
         product_variables.each do |params|
+          runner = Paraduct::Runner.new(
+            script:       script,
+            params:       params,
+            base_job_dir: base_job_dir,
+          )
+          runner.logger.info "[START] params: #{runner.formatted_params}"
           pool.process do
-            runner = Paraduct::Runner.new(
-              script:       script,
-              params:       params,
-              base_job_dir: base_job_dir,
-            )
-
             runner.setup_dir
             begin
               stdout = runner.perform
@@ -38,14 +35,7 @@ START matrix test
               successful = false
             end
 
-            Paraduct.logger.info <<-EOS
-======================================================
-params:   #{runner.formatted_params}
-job_name: #{runner.job_name}
-job_dir:  #{runner.job_dir}
-
-            #{stdout}
-            EOS
+            runner.logger.info "[END]   params: #{runner.formatted_params}"
 
             test_response.jobs_push(
               job_name:         runner.job_name,
@@ -56,7 +46,6 @@ job_dir:  #{runner.job_dir}
             )
           end
         end
-
       ensure
         pool.shutdown
       end
