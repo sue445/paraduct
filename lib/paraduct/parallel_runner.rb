@@ -25,8 +25,8 @@ START matrix test
             base_job_dir: base_job_dir,
             job_id:       index + 1,
           )
-          runner.logger.info "[START] params: #{runner.formatted_params}"
           pool.process do
+            runner.logger.info "[START] params: #{runner.formatted_params}"
             runner.setup_dir
             begin
               stdout = runner.perform

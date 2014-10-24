@@ -3,7 +3,7 @@ module Paraduct
   require "open3"
 
   class Runner
-    attr_reader :script, :params, :base_job_dir, :logger
+    attr_reader :script, :params, :base_job_dir
 
     # @param args
     # @option args :script [String, Array<String>] script file, script(s)
@@ -14,7 +14,6 @@ module Paraduct
       @params       = args[:params]
       @base_job_dir = args[:base_job_dir]
       @job_id       = args[:job_id]
-      @logger       = Paraduct::ThreadLogger.new
     end
 
     def setup_dir
@@ -52,6 +51,16 @@ module Paraduct
       @params.map{ |key, value| "#{key}=#{value}" }.join(", ")
     end
 
+    def logger
+      unless @logger
+        stdout_logger = Paraduct::ColoredLabelLogger.new(object_id)
+        file_logger   = Logger.new(Pathname(@base_job_dir).join("#{job_name}.log"))
+        @logger       = stdout_logger.extend(ActiveSupport::Logger.broadcast(file_logger))
+      end
+
+      @logger
+    end
+
     def self.capitalize_keys(params)
       params.inject({}) do |res, (key, value)|
         res[key.upcase] = value
@@ -65,7 +74,7 @@ module Paraduct
 
       IO.popen(command) do |io|
         while line = io.gets
-          @logger.info(line)
+          logger.info(line)
           lines << line
         end
       end

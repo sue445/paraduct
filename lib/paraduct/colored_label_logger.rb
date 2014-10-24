@@ -1,9 +1,9 @@
 module Paraduct
-  class ThreadLogger < ::Logger
-    def initialize(logdev = STDOUT)
+  class ColoredLabelLogger < ::Logger
+    def initialize(label_name, logdev = STDOUT)
       super(logdev)
-      color = Paraduct::ThreadLogger.next_color
-      @label = "[#{object_id.to_s.colorize(color)}]"
+      color = Paraduct::ColoredLabelLogger.next_color
+      @label = "[#{label_name.to_s.colorize(color)}]"
       @formatter = ActiveSupport::Logger::SimpleFormatter.new
     end
 
