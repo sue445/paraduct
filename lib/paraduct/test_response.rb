@@ -23,6 +23,14 @@ module Paraduct
 
       message = "======================================================\n"
 
+      if successful_count > 0
+        message << "Passed:\n\n"
+        @jobs.select{ |result| result[:successful] }.each_with_index do |result, i|
+          message << "  #{i + 1}) #{result[:formatted_params]}\n"
+        end
+        message << "\n"
+      end
+
       if failure_count > 0
         message << "Failures:\n\n"
         @jobs.select{ |result| !result[:successful] }.each_with_index do |result, i|
@@ -30,6 +38,7 @@ module Paraduct
         end
         message << "\n"
       end
+
       message << "#{all_count} jobs, #{failure_count} failures, #{successful_count} passed\n"
 
       message
