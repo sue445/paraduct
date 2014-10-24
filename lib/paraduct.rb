@@ -2,6 +2,7 @@ require "active_support"
 require "active_support/deprecation"
 require "active_support/core_ext"
 require "pathname"
+require 'paraduct/version'
 
 module Paraduct
   autoload :ColoredLabelLogger, 'paraduct/colored_label_logger'
@@ -12,7 +13,6 @@ module Paraduct
   autoload :SyncUtils         , 'paraduct/sync_utils'
   autoload :TestResponse      , 'paraduct/test_response'
   autoload :VariableConverter , 'paraduct/variable_converter'
-  autoload :Version           , 'paraduct/version'
 
   class << self
     def configuration
