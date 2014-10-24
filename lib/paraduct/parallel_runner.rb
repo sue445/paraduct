@@ -32,6 +32,7 @@ START matrix test
               stdout = runner.perform
               successful = true
             rescue Paraduct::Errors::ProcessError => e
+              runner.logger.error "exitstatus=#{e.exitstatus}, #{e.inspect}"
               stdout = e.message
               successful = false
             end
