@@ -1,6 +1,7 @@
 module Paraduct
   module Errors
     class TestFailureError < StandardError; end
+    class DirtyExitError < StandardError; end
 
     class ProcessError < StandardError
       attr_reader :status

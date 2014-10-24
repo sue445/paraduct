@@ -1,6 +1,6 @@
 module Paraduct
   require "colorize"
-  require "open3"
+  require 'pty'
 
   class Runner
     attr_reader :script, :params, :base_job_dir
@@ -69,20 +69,21 @@ module Paraduct
     end
 
     private
-    def run_command(command)
-      lines = ""
 
-      IO.popen(command) do |io|
-        while line = io.gets
-          logger.info(line)
-          lines << line
+    def run_command(command)
+      full_stdout = ""
+
+      PTY.spawn(command) do |stdin, stdout, pid|
+        stdin.each do |line|
+          line.strip!
+          logger.info line
+          full_stdout << "#{line}\n"
         end
+        exit_status = PTY.check(pid)
+        raise Paraduct::Errors::ProcessError.new(full_stdout, exit_status) unless exit_status.success?
       end
 
-      status = $?
-      raise Paraduct::Errors::ProcessError.new(lines, status) unless status.success?
-
-      lines
+      full_stdout
     end
   end
 end

@@ -32,7 +32,7 @@ START matrix test
               stdout = runner.perform
               successful = true
             rescue Paraduct::Errors::ProcessError => e
-              runner.logger.error "exitstatus=#{e.exitstatus}, #{e.inspect}"
+              runner.logger.error "exitstatus=#{e.status}, #{e.inspect}"
               stdout = e.message
               successful = false
             end
@@ -51,6 +51,8 @@ START matrix test
       ensure
         pool.shutdown
       end
+
+      raise Paraduct::Errors::DirtyExitError unless test_response.jobs_count == product_variables.count
 
       test_response
     end
