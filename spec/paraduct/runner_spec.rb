@@ -8,7 +8,9 @@ describe Paraduct::Runner do
     )
   end
 
-  let(:base_job_dir){ "/tmp/jobs" }
+  include_context "uses temp dir"
+
+  let(:base_job_dir){ temp_dir }
   let(:script)      { "" }
   let(:params)      { {} }
   let(:job_id)      { 1 }
@@ -67,7 +69,7 @@ DATABASE=mysql
 
     let(:params) { { "ruby" => "1.9", "database" => "mysql" } }
 
-    it { should eq Pathname("/tmp/jobs/RUBY_1.9_DATABASE_mysql") }
+    it { should eq temp_dir_path.join("RUBY_1.9_DATABASE_mysql") }
   end
 
   describe "#formatted_params" do
