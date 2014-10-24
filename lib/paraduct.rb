@@ -10,7 +10,7 @@ module Paraduct
   autoload :Runner           , 'paraduct/runner'
   autoload :SyncUtils        , 'paraduct/sync_utils'
   autoload :TestResponse     , 'paraduct/test_response'
-  autoload :ThreadLogger     , 'paraduct/thread_logger'
+  autoload :ColoredLabelLogger, 'paraduct/colored_label_logger'
   autoload :VariableConverter, 'paraduct/variable_converter'
   autoload :Version          , 'paraduct/version'
 

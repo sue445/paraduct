@@ -53,9 +53,9 @@ module Paraduct
 
     def logger
       unless @logger
-        thread_logger = Paraduct::ThreadLogger.new
+        stdout_logger = Paraduct::ColoredLabelLogger.new(object_id)
         file_logger   = Logger.new(Pathname(@base_job_dir).join("#{job_name}.log"))
-        @logger       = thread_logger.extend(ActiveSupport::Logger.broadcast(file_logger))
+        @logger       = stdout_logger.extend(ActiveSupport::Logger.broadcast(file_logger))
       end
 
       @logger
