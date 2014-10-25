@@ -1,6 +1,6 @@
 module Paraduct
   require "colorize"
-  require 'pty'
+  require "pty"
 
   class Runner
     attr_reader :script, :params, :base_job_dir
