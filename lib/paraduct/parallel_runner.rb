@@ -37,7 +37,7 @@ START matrix test
               successful = false
 
             rescue Exception => e
-              runner.logger.error e.inspect
+              runner.logger.error "Unknown error: #{e.inspect}"
               runner.logger.error e.backtrace.join("\n")
               successful = false
             end
