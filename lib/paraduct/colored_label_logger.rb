@@ -7,7 +7,8 @@ module Paraduct
       @formatter = ActiveSupport::Logger::SimpleFormatter.new
     end
 
-    [:debug, :info, :warn, :error, :fatal].each do |severity|
+    SEVERITIES = [:debug, :info, :warn, :error, :fatal]
+    SEVERITIES.each do |severity|
       define_method "#{severity}_with_label" do |message|
         message.each_line do |line|
           send "#{severity}_without_label", "#{@label} #{line.strip}" unless line.blank?

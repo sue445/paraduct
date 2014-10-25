@@ -20,6 +20,8 @@ require 'rspec/temp_dir'
 require 'rspec/its'
 require 'pry'
 
+is_verbose = ENV["VERBOSE"].present?
+
 def spec_dir
   Pathname(File.dirname(__FILE__))
 end
@@ -118,7 +120,12 @@ RSpec.configure do |config|
   config.order = :random
 
   config.before do
-    # quiet
-    allow(Paraduct.logger).to receive(:info)
+    unless is_verbose
+      # quiet all logs
+      Paraduct::ColoredLabelLogger::SEVERITIES.each do |severity|
+        allow(Paraduct.logger).to receive(severity)
+        allow_any_instance_of(Paraduct::ColoredLabelLogger).to receive(severity)
+      end
+    end
   end
 end
