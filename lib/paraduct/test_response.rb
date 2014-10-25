@@ -6,7 +6,7 @@ module Paraduct
       @jobs = []
     end
 
-    delegate :push, to: :jobs, prefix: true
+    delegate :push, :count, to: :jobs, prefix: true
 
     def successful?
       @jobs.all?{ |result| result[:successful] }

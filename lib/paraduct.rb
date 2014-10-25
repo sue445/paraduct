@@ -3,6 +3,7 @@ require "active_support/deprecation"
 require "active_support/core_ext"
 require "pathname"
 require 'paraduct/version'
+require "colorize"
 
 module Paraduct
   autoload :ColoredLabelLogger, 'paraduct/colored_label_logger'
