@@ -1,5 +1,4 @@
 module Paraduct
-  require "colorize"
   require "pty"
 
   class Runner
