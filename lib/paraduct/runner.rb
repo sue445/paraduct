@@ -73,7 +73,7 @@ module Paraduct
     def run_command(command)
       full_stdout = ""
 
-      PTY.spawn(command) do |stdin, stdout, pid|
+      PTY.spawn(command) do |stdin, _stdout, pid|
         stdin.each do |line|
           line.strip!
           logger.info line
