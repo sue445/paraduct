@@ -35,6 +35,11 @@ START matrix test
               runner.logger.error "exitstatus=#{e.status}, #{e.inspect}"
               stdout = e.message
               successful = false
+
+            rescue Exception => e
+              runner.logger.error "Unknown error: #{e.inspect}"
+              runner.logger.error e.backtrace.join("\n")
+              successful = false
             end
 
             runner.logger.info "[END]   params: #{runner.formatted_params}"

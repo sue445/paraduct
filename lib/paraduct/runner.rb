@@ -82,7 +82,7 @@ module Paraduct
         rescue Errno::EIO
         end
         exit_status = PTY.check(pid)
-        raise Paraduct::Errors::ProcessError.new(full_stdout, exit_status) unless exit_status.success?
+        raise Paraduct::Errors::ProcessError.new(full_stdout, exit_status) if exit_status && !exit_status.success?
       end
 
       full_stdout

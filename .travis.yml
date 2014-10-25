@@ -9,7 +9,7 @@ bundler_args: --jobs=2
 before_script:
   - export CODECLIMATE_REPO_TOKEN=bfa8a7ca9d8e18e9cad7593885aa11477a3c4b6b53f70f6be8ce60f470b48770
 script:
-  - bundle exec rspec
+  - VERBOSE=1 bundle exec rspec
 branches:
   only:
     - master
