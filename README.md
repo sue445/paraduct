@@ -71,6 +71,9 @@ variables:
 max_threads: 4
 rsync_option:
   exclude_from: .paraduct_rsync_exclude.txt
+exclude:
+  - name1: value1a
+    name2: value2b
 ```
 
 ### script
@@ -99,6 +102,9 @@ maximum concurrent execution number of jobs
 
 ### rsync_option
 support only `exclude-from`
+
+### exclude
+exclude pattern from product variables
 
 ## Contributing
 

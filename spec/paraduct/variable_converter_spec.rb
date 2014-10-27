@@ -58,4 +58,29 @@ describe Paraduct::VariableConverter do
 
   end
 
+  describe "#reject" do
+    subject{ Paraduct::VariableConverter.reject(product_variables, exclude_variables) }
+
+    let(:product_variables) do
+      [
+        {"ruby" => "1.9", "database" => "mysql"     , "rails" => "3.2"},
+        {"ruby" => "2.0", "database" => "mysql"     , "rails" => "3.2"},
+        {"ruby" => "2.1", "database" => "mysql"     , "rails" => "3.2"},
+      ]
+    end
+
+    let(:exclude_variables) do
+      [
+        {"rails" => "3.2", "ruby" => "2.0", "database" => "mysql"},
+      ]
+    end
+
+    it {
+      should contain_exactly(
+        {"ruby" => "1.9", "database" => "mysql"     , "rails" => "3.2"},
+        {"ruby" => "2.1", "database" => "mysql"     , "rails" => "3.2"},
+      )
+    }
+  end
+
 end

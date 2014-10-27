@@ -24,6 +24,13 @@ module Paraduct
       product_variables
     end
 
+    def self.reject(product_variables, exclude_variables)
+      product_variables.inject([]){ |rejected_product_variables, variables|
+        rejected_product_variables << variables unless exclude_variables.include?(variables)
+        rejected_product_variables
+      }
+    end
+
     def self.product_array(array)
       first_values = array.shift
       if array.empty?
