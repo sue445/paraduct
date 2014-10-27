@@ -24,6 +24,10 @@ module Paraduct
       config_data[:rsync_option] || {}
     end
 
+    def exclude
+      config_data[:exclude] || []
+    end
+
     # @return [Pathname]
     def work_dir
       _work_dir = config_data[:work_dir] || "tmp/paraduct_workspace"

@@ -11,3 +11,6 @@ variables:
 max_threads: 4
 rsync_option:
   exclude_from: .paraduct_rsync_exclude.txt
+exclude:
+  - name1: value1a
+    name2: value2b
