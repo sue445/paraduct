@@ -35,6 +35,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.1.0"
   spec.add_development_dependency "rspec-collection_matchers"
   spec.add_development_dependency "rspec-its"
+  spec.add_development_dependency "rspec-retry"
   spec.add_development_dependency "rspec-temp_dir"
   spec.add_development_dependency "yard"
 end
