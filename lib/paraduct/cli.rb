@@ -26,7 +26,7 @@ module Paraduct
       product_variables = Paraduct::VariableConverter.reject(product_variables, Paraduct.config.exclude)
 
       if options[:dry_run]
-        product_variables.each_with_index do |params, index|
+        product_variables.each do |params|
           runner = Paraduct::Runner.new(params: params)
           Paraduct.logger.info "[dry-run] params: #{runner.formatted_params}"
         end
