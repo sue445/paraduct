@@ -65,7 +65,9 @@ describe Paraduct::CLI do
           }
         end
 
-        it { expect{ subject }.to raise_error Paraduct::Errors::TestFailureError }
+        it "should raise TestFailureError", with_retry do
+          expect { subject }.to raise_error Paraduct::Errors::TestFailureError
+        end
       end
     end
 
