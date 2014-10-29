@@ -1,3 +1,3 @@
 module Paraduct
-  VERSION = "0.0.1.beta16"
+  VERSION = "0.0.1.beta17"
 end
