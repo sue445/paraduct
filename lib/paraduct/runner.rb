@@ -25,7 +25,7 @@ module Paraduct
     # @return [String] stdout
     # @raise [Paraduct::Errors::ProcessError] command exited error status
     def perform
-      export_variables = key_capitalized_params.merge("JOB_ID" => @job_id, "JOB_NAME" => job_name)
+      export_variables = key_capitalized_params.merge("PARADUCT_JOB_ID" => @job_id, "PARADUCT_JOB_NAME" => job_name)
       variable_string = export_variables.map{ |key, value| %(export #{key}="#{value}";) }.join(" ")
 
       Array.wrap(@script).inject("") do |stdout, command|

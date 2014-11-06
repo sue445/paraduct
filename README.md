@@ -85,20 +85,20 @@ script to run
 ### work_dir
 diretory to run
 
-* own job is run under `work_dir/JOB_NAME`
+* own job is run under `work_dir/$PARADUCT_JOB_NAME`
 
 ### variables
 Parameters to be combined
 
 * key is capitalized (example. `name1` -> `NAME1`)
-* JOB_NAME is generated with variables
+* `$PARADUCT_JOB_NAME` is generated with variables
 
-name1   | name2   | JOB_NAME                      | current directory where the test is performed
-------- | ------- | ----------------------------- | ---------------------------------------
-value1a | value2a | NAME1_value1a_NAME2_value2a   | tmp/paraduct_workspace/NAME1_value1a_NAME2_value2a
-value1a | value2b | NAME1_value1a_NAME2_value2b   | tmp/paraduct_workspace/NAME1_value1a_NAME2_value2b
-value1b | value2a | NAME1_value1b_NAME2_value2a   | tmp/paraduct_workspace/NAME1_value1b_NAME2_value2a
-value1b | value2b | NAME1_value1b_NAME2_value2b   | tmp/paraduct_workspace/NAME1_value1b_NAME2_value2b
+$PARADUCT_JOB_ID   | name1   | name2   | $PARADUCT_JOB_NAME            | current directory where the test is performed
+------------------ | ------- | ------- | ----------------------------- | --------------------------------------------------
+1                  | value1a | value2a | NAME1_value1a_NAME2_value2a   | tmp/paraduct_workspace/NAME1_value1a_NAME2_value2a
+2                  | value1a | value2b | NAME1_value1a_NAME2_value2b   | tmp/paraduct_workspace/NAME1_value1a_NAME2_value2b
+3                  | value1b | value2a | NAME1_value1b_NAME2_value2a   | tmp/paraduct_workspace/NAME1_value1b_NAME2_value2a
+4                  | value1b | value2b | NAME1_value1b_NAME2_value2b   | tmp/paraduct_workspace/NAME1_value1b_NAME2_value2b
 
 ### max_threads
 maximum concurrent execution number of jobs
