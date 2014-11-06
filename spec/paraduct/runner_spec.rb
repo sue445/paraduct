@@ -20,7 +20,7 @@ describe Paraduct::Runner do
 
     let(:script) { "./script/build_success.sh" }
     let(:params) { { "ruby" => "1.9", "database" => "mysql" } }
-    let(:command){ 'export RUBY="1.9"; export DATABASE="mysql"; export JOB_ID="1"; export JOB_NAME="RUBY_1.9_DATABASE_mysql"; ./script/build_success.sh' }
+    let(:command){ 'export RUBY="1.9"; export DATABASE="mysql"; export PARADUCT_JOB_ID="1"; export PARADUCT_JOB_NAME="RUBY_1.9_DATABASE_mysql"; ./script/build_success.sh' }
 
     context "with mock system" do
       it "script is call with capitalized variable" do
