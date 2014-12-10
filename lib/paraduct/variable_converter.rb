@@ -26,9 +26,16 @@ module Paraduct
 
     def self.reject(product_variables, exclude_variables)
       product_variables.inject([]) do |rejected_product_variables, variables|
-        rejected_product_variables << variables unless exclude_variables.include?(variables)
+        rejected_product_variables << variables unless exclude_variables.any?{ |exclude| partial_match?(variables, exclude) }
         rejected_product_variables
       end
+    end
+
+    def self.partial_match?(parent_hash, child_hash)
+      child_hash.each do |k, v|
+        return false unless parent_hash[k] == v
+      end
+      true
     end
 
     def self.product_array(array)
