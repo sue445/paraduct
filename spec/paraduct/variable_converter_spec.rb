@@ -63,24 +63,72 @@ describe Paraduct::VariableConverter do
 
     let(:product_variables) do
       [
-        {"ruby" => "1.9", "database" => "mysql"     , "rails" => "3.2"},
-        {"ruby" => "2.0", "database" => "mysql"     , "rails" => "3.2"},
-        {"ruby" => "2.1", "database" => "mysql"     , "rails" => "3.2"},
+        { "ruby" => "1.9", "database" => "mysql"     , "rails" => "3.2" },
+        { "ruby" => "2.0", "database" => "mysql"     , "rails" => "3.2" },
+        { "ruby" => "2.1", "database" => "mysql"     , "rails" => "3.2" },
       ]
     end
 
-    let(:exclude_variables) do
-      [
-        {"rails" => "3.2", "ruby" => "2.0", "database" => "mysql"},
-      ]
+    context "with perfect matching" do
+      let(:exclude_variables) do
+        [
+          { "rails" => "3.2", "ruby" => "2.0", "database" => "mysql" },
+        ]
+      end
+
+      it do
+        should contain_exactly(
+                 { "ruby" => "1.9", "database" => "mysql", "rails" => "3.2" },
+                 { "ruby" => "2.1", "database" => "mysql", "rails" => "3.2" },
+               )
+      end
     end
 
-    it {
-      should contain_exactly(
-        {"ruby" => "1.9", "database" => "mysql"     , "rails" => "3.2"},
-        {"ruby" => "2.1", "database" => "mysql"     , "rails" => "3.2"},
-      )
-    }
+    context "with partial matching" do
+      let(:exclude_variables) do
+        [
+          { "ruby" => "1.9" },
+        ]
+      end
+
+      it do
+        should contain_exactly(
+                 { "ruby" => "2.0", "database" => "mysql", "rails" => "3.2" },
+                 { "ruby" => "2.1", "database" => "mysql", "rails" => "3.2" },
+               )
+      end
+    end
   end
 
+  describe "#partial_match?" do
+    subject{ Paraduct::VariableConverter.partial_match?(parent_hash, child_hash) }
+
+    context "with parent_hash == child_hash" do
+      let(:parent_hash){ { a: 1, b: 2, c: 3 } }
+      let(:child_hash) { { a: 1, b: 2, c: 3 } }
+
+      it{ should be true }
+    end
+
+    context "with parent_hash > child_hash" do
+      let(:parent_hash){ { a: 1, b: 2, c: 3 } }
+      let(:child_hash) { { a: 1, c: 3 } }
+
+      it{ should be true }
+    end
+
+    context "with parent_hash > child_hash, but value is not same" do
+      let(:parent_hash){ { a: 1, b: 2, c: 3 } }
+      let(:child_hash) { { a: 1, c: 4 } }
+
+      it{ should be false }
+    end
+
+    context "with parent_hash < child_hash" do
+      let(:parent_hash){ { a: 1, b: 2, c: 3 } }
+      let(:child_hash) { { a: 1, c: 3, d: 4 } }
+
+      it{ should be false }
+    end
+  end
 end
