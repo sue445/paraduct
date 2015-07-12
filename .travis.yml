@@ -24,3 +24,4 @@ matrix:
   allow_failures:
   - rvm: 2.2
   - rvm: ruby-head
+sudo: false
