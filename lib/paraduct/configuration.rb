@@ -30,8 +30,19 @@ module Paraduct
 
     # @return [Pathname]
     def work_dir
-      _work_dir = config_data[:work_dir] || "tmp/paraduct_workspace"
-      root_dir.join(_work_dir)
+      config_data[:work_dir]
+    end
+
+    def base_job_dir
+      if work_dir.blank?
+        root_dir
+      else
+        root_dir.join(work_dir)
+      end
+    end
+
+    def enable_rsync?
+      !work_dir.blank?
     end
 
     # @return [Pathname]

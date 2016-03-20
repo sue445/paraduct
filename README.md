@@ -86,6 +86,8 @@ script to run
 diretory to run
 
 * own job is run under `work_dir/$PARADUCT_JOB_NAME`
+* if `work_dir` is empty, own job is run under current directory. 
+  * rsync is disabled
 
 ### variables
 Parameters to be combined

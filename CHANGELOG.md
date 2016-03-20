@@ -3,6 +3,8 @@
 
 * Stop convert key capitalize
   * https://github.com/sue445/paraduct/pull/77
+* Run under current directory when work_dir is empty
+  * https://github.com/sue445/paraduct/pull/78
 
 ## v0.0.3
 [full changelog](http://github.com/sue445/paraduct/compare/v0.0.2...v0.0.3)
