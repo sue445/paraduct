@@ -65,18 +65,18 @@ script: |-
   echo "NAME1=${NAME1}, NAME2=${NAME2}"
 work_dir: tmp/paraduct_workspace
 variables:
-  name1:
+  NAME1:
     - value1a
     - value1b
-  name2:
+  NAME2:
     - value2a
     - value2b
 max_threads: 4
 rsync_option:
   exclude_from: .paraduct_rsync_exclude.txt
 exclude:
-  - name1: value1a
-    name2: value2b
+  - NAME1: value1a
+    NAME2: value2b
 ```
 
 ### script
@@ -90,10 +90,9 @@ diretory to run
 ### variables
 Parameters to be combined
 
-* key is capitalized (example. `name1` -> `NAME1`)
 * `$PARADUCT_JOB_NAME` is generated with variables
 
-$PARADUCT_JOB_ID   | name1   | name2   | $PARADUCT_JOB_NAME            | current directory where the test is performed
+$PARADUCT_JOB_ID   | NAME1   | NAME2   | $PARADUCT_JOB_NAME            | current directory where the test is performed
 ------------------ | ------- | ------- | ----------------------------- | --------------------------------------------------
 1                  | value1a | value2a | NAME1_value1a_NAME2_value2a   | tmp/paraduct_workspace/NAME1_value1a_NAME2_value2a
 2                  | value1a | value2b | NAME1_value1a_NAME2_value2b   | tmp/paraduct_workspace/NAME1_value1a_NAME2_value2b

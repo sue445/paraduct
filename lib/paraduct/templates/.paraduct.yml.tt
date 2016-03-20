@@ -2,15 +2,15 @@ script: |-
   echo "NAME1=${NAME1}, NAME2=${NAME2}"
 work_dir: tmp/paraduct_workspace
 variables:
-  name1:
+  NAME1:
     - value1a
     - value1b
-  name2:
+  NAME2:
     - value2a
     - value2b
 max_threads: 4
 rsync_option:
   exclude_from: .paraduct_rsync_exclude.txt
 exclude:
-  - name1: value1a
-    name2: value2b
+  - NAME1: value1a
+    NAME2: value2b
