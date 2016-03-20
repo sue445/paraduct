@@ -1,5 +1,8 @@
 ## master
-[full changelog](http://github.com/sue445/paraduct/compare/v0.0.2...master)
+[full changelog](http://github.com/sue445/paraduct/compare/v0.0.3...master)
+
+## v0.0.3
+[full changelog](http://github.com/sue445/paraduct/compare/v0.0.2...v0.0.3)
 
 * relax exclude definition
   * https://github.com/sue445/paraduct/pull/74
