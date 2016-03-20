@@ -4,6 +4,7 @@ rvm:
 - 2.0
 - 2.1
 - 2.2
+- 2.3.0
 - ruby-head
 cache: bundler
 bundler_args: --jobs=2
@@ -22,6 +23,5 @@ notifications:
     secure: Va597DRHkMl8/mcoquZ0cNcR0GbJ+kbrXDMDnkiF8S7+xtsAXG3iQB9/Z3zOjF73wXmBjYWuawhcHiKD15atS1UN3xXCfguS26eANsnG+NsU8VXzY5wRW7G+Y4YpkACh4j2YLWlFqgffHgkJ+hM/OGtwnJPA6pSPXoJ7DS48lEs=
 matrix:
   allow_failures:
-  - rvm: 2.2
   - rvm: ruby-head
 sudo: false
