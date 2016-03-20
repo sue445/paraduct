@@ -1,6 +1,9 @@
 ## master
 [full changelog](http://github.com/sue445/paraduct/compare/v0.0.3...master)
 
+* Stop convert key capitalize
+  * https://github.com/sue445/paraduct/pull/77
+
 ## v0.0.3
 [full changelog](http://github.com/sue445/paraduct/compare/v0.0.2...v0.0.3)
 
