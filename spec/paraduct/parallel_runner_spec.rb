@@ -20,16 +20,16 @@ describe Paraduct::ParallelRunner do
       let(:script){ "./script/build_success.sh" }
       let(:product_variables) do
         [
-          { "ruby" => "1.9", "database" => "mysql" },
-          { "ruby" => "2.0", "database" => "postgresql" },
+          { "RUBY" => "1.9", "DATABASE" => "mysql" },
+          { "RUBY" => "2.0", "DATABASE" => "postgresql" },
         ]
       end
 
       its(:jobs) do
         should include(
                  job_name:         "RUBY_1.9_DATABASE_mysql",
-                 params:           { "ruby" => "1.9", "database" => "mysql" },
-                 formatted_params: "ruby=1.9, database=mysql",
+                 params:           { "RUBY" => "1.9", "DATABASE" => "mysql" },
+                 formatted_params: "RUBY=1.9, DATABASE=mysql",
                  successful:       true,
                  stdout:           "RUBY=1.9\nDATABASE=mysql\n"
                )
@@ -38,8 +38,8 @@ describe Paraduct::ParallelRunner do
       its(:jobs) do
         should include(
                  job_name:         "RUBY_2.0_DATABASE_postgresql",
-                 params:           { "ruby" => "2.0", "database" => "postgresql" },
-                 formatted_params: "ruby=2.0, database=postgresql",
+                 params:           { "RUBY" => "2.0", "DATABASE" => "postgresql" },
+                 formatted_params: "RUBY=2.0, DATABASE=postgresql",
                  successful:       true,
                  stdout:           "RUBY=2.0\nDATABASE=postgresql\n"
                )
@@ -65,16 +65,16 @@ describe Paraduct::ParallelRunner do
       let(:script){ %q(echo "RUBY=${RUBY} DATABASE=${DATABASE}") }
       let(:product_variables) do
         [
-          { "ruby" => "1.9", "database" => "mysql" },
-          { "ruby" => "2.0", "database" => "postgresql" },
+          { "RUBY" => "1.9", "DATABASE" => "mysql" },
+          { "RUBY" => "2.0", "DATABASE" => "postgresql" },
         ]
       end
 
       its(:jobs) do
         should include(
                  job_name:         "RUBY_1.9_DATABASE_mysql",
-                 params:           { "ruby" => "1.9", "database" => "mysql" },
-                 formatted_params: "ruby=1.9, database=mysql",
+                 params:           { "RUBY" => "1.9", "DATABASE" => "mysql" },
+                 formatted_params: "RUBY=1.9, DATABASE=mysql",
                  successful:       true,
                  stdout:           "RUBY=1.9 DATABASE=mysql\n"
                )
@@ -83,8 +83,8 @@ describe Paraduct::ParallelRunner do
       its(:jobs) do
         should include(
                  job_name:         "RUBY_2.0_DATABASE_postgresql",
-                 params:           { "ruby" => "2.0", "database" => "postgresql" },
-                 formatted_params: "ruby=2.0, database=postgresql",
+                 params:           { "RUBY" => "2.0", "DATABASE" => "postgresql" },
+                 formatted_params: "RUBY=2.0, DATABASE=postgresql",
                  successful:       true,
                  stdout:           "RUBY=2.0 DATABASE=postgresql\n"
                )

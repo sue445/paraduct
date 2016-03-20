@@ -26,8 +26,8 @@ describe Paraduct::CLI do
             script: "./script/build_success.sh",
             work_dir: "tmp/paraduct_workspace",
             variables: {
-              ruby:     ["1.9.3", "2.0.0"],
-              database: ["mysql", "postgresql"],
+              "RUBY" =>     ["1.9.3", "2.0.0"],
+              "DATABASE" => ["mysql", "postgresql"],
             },
           }
         end
@@ -35,10 +35,10 @@ describe Paraduct::CLI do
         let(:script){ "./script/build_success.sh" }
         let(:product_variables) do
           [
-            { "ruby" => "1.9.3", "database" => "mysql"      },
-            { "ruby" => "1.9.3", "database" => "postgresql" },
-            { "ruby" => "2.0.0", "database" => "mysql"      },
-            { "ruby" => "2.0.0", "database" => "postgresql" },
+            { "RUBY" => "1.9.3", "DATABASE" => "mysql"      },
+            { "RUBY" => "1.9.3", "DATABASE" => "postgresql" },
+            { "RUBY" => "2.0.0", "DATABASE" => "mysql"      },
+            { "RUBY" => "2.0.0", "DATABASE" => "postgresql" },
           ]
         end
 
@@ -60,7 +60,7 @@ describe Paraduct::CLI do
             script: %q(exit ${STATUS}),
             work_dir: "tmp/paraduct_workspace",
             variables: {
-              status: [0, 1],
+              "STATUS" => [0, 1],
             },
           }
         end

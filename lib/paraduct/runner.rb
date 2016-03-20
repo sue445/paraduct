@@ -25,7 +25,7 @@ module Paraduct
     # @return [String] stdout
     # @raise [Paraduct::Errors::ProcessError] command exited error status
     def perform
-      export_variables = key_capitalized_params.merge("PARADUCT_JOB_ID" => @job_id, "PARADUCT_JOB_NAME" => job_name)
+      export_variables = @params.reverse_merge("PARADUCT_JOB_ID" => @job_id, "PARADUCT_JOB_NAME" => job_name)
       variable_string = export_variables.map{ |key, value| %(export #{key}="#{value}";) }.join(" ")
 
       Array.wrap(@script).inject("") do |stdout, command|
@@ -39,11 +39,7 @@ module Paraduct
     end
 
     def job_name
-      key_capitalized_params.map { |key, value| "#{key}_#{value}" }.join("_").gsub(%r([/ ]), "_")
-    end
-
-    def key_capitalized_params
-      self.class.capitalize_keys(@params)
+      @params.map { |key, value| "#{key}_#{value}" }.join("_").gsub(%r([/ ]), "_")
     end
 
     def formatted_params
@@ -58,13 +54,6 @@ module Paraduct
       end
 
       @logger
-    end
-
-    def self.capitalize_keys(params)
-      params.inject({}) do |res, (key, value)|
-        res[key.upcase] = value
-        res
-      end
     end
 
     private

@@ -1,14 +1,14 @@
 script: ./script/build_success.sh
 work_dir: tmp/paraduct_workspace
 variables:
-  ruby:
+  RUBY:
     - 1.9.3
     - 2.0.0
     - 2.1.2
-  database:
+  DATABASE:
     - mysql
     - postgresql
-  rails:
+  RAILS:
     - 3.2.0
     - 4.0.0
     - 4.1.0

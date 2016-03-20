@@ -19,8 +19,8 @@ describe Paraduct::Runner do
     subject{ runner.perform }
 
     let(:script) { "./script/build_success.sh" }
-    let(:params) { { "ruby" => "1.9", "database" => "mysql" } }
-    let(:command){ 'export RUBY="1.9"; export DATABASE="mysql"; export PARADUCT_JOB_ID="1"; export PARADUCT_JOB_NAME="RUBY_1.9_DATABASE_mysql"; ./script/build_success.sh' }
+    let(:params) { { "RUBY" => "1.9", "DATABASE" => "mysql" } }
+    let(:command){ 'export PARADUCT_JOB_ID="1"; export PARADUCT_JOB_NAME="RUBY_1.9_DATABASE_mysql"; export RUBY="1.9"; export DATABASE="mysql"; ./script/build_success.sh' }
 
     context "with mock system" do
       it "script is call with capitalized variable" do
@@ -67,7 +67,7 @@ DATABASE=mysql
   describe "#job_dir" do
     subject{ runner.job_dir }
 
-    let(:params) { { "ruby" => "1.9", "database" => "mysql" } }
+    let(:params) { { "RUBY" => "1.9", "DATABASE" => "mysql" } }
 
     it { should eq temp_dir_path.join("RUBY_1.9_DATABASE_mysql") }
   end
@@ -75,22 +75,22 @@ DATABASE=mysql
   describe "#formatted_params" do
     subject{ runner.formatted_params }
 
-    let(:params){ { "ruby" => "1.9", "database" => "mysql" } }
+    let(:params){ { "RUBY" => "1.9", "DATABASE" => "mysql" } }
 
-    it{ should eq "ruby=1.9, database=mysql" }
+    it{ should eq "RUBY=1.9, DATABASE=mysql" }
   end
 
   describe "#job_name" do
     subject{ runner.job_name }
 
     context "basic case" do
-      let(:params) { { "ruby" => "1.9", "database" => "mysql" } }
+      let(:params) { { "RUBY" => "1.9", "DATABASE" => "mysql" } }
 
       it { should eq "RUBY_1.9_DATABASE_mysql" }
     end
 
     context "containing slash" do
-      let(:params) { { "ruby" => "1.9", "gemfile" => "gemfiles/rails3_2.gemfile" } }
+      let(:params) { { "RUBY" => "1.9", "GEMFILE" => "gemfiles/rails3_2.gemfile" } }
 
       it { should eq "RUBY_1.9_GEMFILE_gemfiles_rails3_2.gemfile" }
     end
