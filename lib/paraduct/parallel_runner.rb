@@ -8,7 +8,7 @@ module Paraduct
     # @return [Paraduct::TestResponse]
     def self.perform_all(script, product_variables)
       test_response = Paraduct::TestResponse.new
-      base_job_dir = Paraduct.config.work_dir
+      base_job_dir = Paraduct.config.base_job_dir
       FileUtils.mkdir_p(base_job_dir) unless base_job_dir.exist?
 
       Paraduct.logger.info <<-EOS
@@ -27,7 +27,7 @@ START matrix test
           )
           pool.process do
             runner.logger.info "[START] params: #{runner.formatted_params}"
-            runner.setup_dir
+            runner.setup_dir if Paraduct.config.enable_rsync?
             begin
               stdout = runner.perform
               successful = true

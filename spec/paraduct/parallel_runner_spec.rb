@@ -16,6 +16,14 @@ describe Paraduct::ParallelRunner do
       it { expect(copied_file).to be_exist }
     end
 
+    shared_examples :dont_create_job_directories do
+      let(:job_dir)    { temp_dir_path.join("tmp/paraduct_workspace/#{job_name}") }
+      let(:copied_file){ job_dir.join("script/build_success.sh") }
+
+      it { expect(job_dir).not_to be_exist }
+      it { expect(copied_file).not_to be_exist }
+    end
+
     describe "with script file test" do
       let(:script){ "./script/build_success.sh" }
       let(:product_variables) do
@@ -45,18 +53,45 @@ describe Paraduct::ParallelRunner do
                )
       end
 
-      describe "should create job directories" do
+      context "When work_dir is not empty" do
         before do
-          # exercise
-          subject
+          allow(Paraduct.config).to receive(:work_dir) { "tmp/paraduct_workspace" }
         end
 
-        it_behaves_like :create_job_directories do
-          let(:job_name){ "RUBY_1.9_DATABASE_mysql" }
+        describe "should create job directories" do
+          before do
+            # exercise
+            subject
+          end
+
+          it_behaves_like :create_job_directories do
+            let(:job_name){ "RUBY_1.9_DATABASE_mysql" }
+          end
+
+          it_behaves_like :create_job_directories do
+            let(:job_name){ "RUBY_2.0_DATABASE_postgresql" }
+          end
+        end
+      end
+
+      context "When work_dir is empty" do
+        before do
+          allow(Paraduct.config).to receive(:work_dir) { nil }
         end
 
-        it_behaves_like :create_job_directories do
-          let(:job_name){ "RUBY_2.0_DATABASE_postgresql" }
+        describe "should not create job directories" do
+          before do
+            # exercise
+            subject
+          end
+
+          it_behaves_like :dont_create_job_directories do
+            let(:job_name){ "RUBY_1.9_DATABASE_mysql" }
+          end
+
+          it_behaves_like :dont_create_job_directories do
+            let(:job_name){ "RUBY_2.0_DATABASE_postgresql" }
+          end
         end
       end
     end
@@ -90,18 +125,45 @@ describe Paraduct::ParallelRunner do
                )
       end
 
-      describe "should create job directories" do
+      context "When work_dir is not empty" do
         before do
-          # exercise
-          subject
+          allow(Paraduct.config).to receive(:work_dir) { "tmp/paraduct_workspace" }
         end
 
-        it_behaves_like :create_job_directories do
-          let(:job_name){ "RUBY_1.9_DATABASE_mysql" }
+        describe "should create job directories" do
+          before do
+            # exercise
+            subject
+          end
+
+          it_behaves_like :create_job_directories do
+            let(:job_name){ "RUBY_1.9_DATABASE_mysql" }
+          end
+
+          it_behaves_like :create_job_directories do
+            let(:job_name){ "RUBY_2.0_DATABASE_postgresql" }
+          end
+        end
+      end
+
+      context "When work_dir is empty" do
+        before do
+          allow(Paraduct.config).to receive(:work_dir) { nil }
         end
 
-        it_behaves_like :create_job_directories do
-          let(:job_name){ "RUBY_2.0_DATABASE_postgresql" }
+        describe "should not create job directories" do
+          before do
+            # exercise
+            subject
+          end
+
+          it_behaves_like :dont_create_job_directories do
+            let(:job_name){ "RUBY_1.9_DATABASE_mysql" }
+          end
+
+          it_behaves_like :dont_create_job_directories do
+            let(:job_name){ "RUBY_2.0_DATABASE_postgresql" }
+          end
         end
       end
     end
