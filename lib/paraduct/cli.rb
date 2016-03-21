@@ -31,7 +31,7 @@ module Paraduct
           Paraduct.logger.info "[dry-run] params: #{runner.formatted_params}"
         end
       else
-        test_response = Paraduct::ParallelRunner.perform_all(script, product_variables)
+        test_response = Paraduct::ParallelRunner.perform_all(script: script, product_variables: product_variables)
         Paraduct.logger.info test_response.detail_message
         raise Paraduct::Errors::TestFailureError if test_response.failure?
       end

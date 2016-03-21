@@ -49,7 +49,7 @@ describe Paraduct::CLI do
         end
 
         it "should call perform_all" do
-          expect(Paraduct::ParallelRunner).to receive(:perform_all).with(script, product_variables){ test_response }
+          expect(Paraduct::ParallelRunner).to receive(:perform_all).with(script: script, product_variables: product_variables){ test_response }
           subject
         end
       end

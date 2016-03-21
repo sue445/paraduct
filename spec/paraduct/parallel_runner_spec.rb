@@ -1,6 +1,6 @@
 describe Paraduct::ParallelRunner do
   describe "#perform_all" do
-    subject{ Paraduct::ParallelRunner.perform_all(script, product_variables) }
+    subject{ Paraduct::ParallelRunner.perform_all(script: script, product_variables: product_variables) }
 
     include_context :within_temp_work_dir
 

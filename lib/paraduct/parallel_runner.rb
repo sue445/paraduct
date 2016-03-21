@@ -6,7 +6,7 @@ module Paraduct
     # @param script            [String, Array<String>] script file, script(s)
     # @param product_variables [Array<Hash{String => String}>]
     # @return [Paraduct::TestResponse]
-    def self.perform_all(script, product_variables)
+    def self.perform_all(script: nil, product_variables: nil)
       test_response = Paraduct::TestResponse.new
       base_job_dir = Paraduct.config.base_job_dir
       FileUtils.mkdir_p(base_job_dir) unless base_job_dir.exist?
