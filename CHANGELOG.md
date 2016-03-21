@@ -5,12 +5,22 @@
   * https://github.com/sue445/paraduct/pull/77
 * Run under current directory when work_dir is empty
   * https://github.com/sue445/paraduct/pull/78
+* Stop support ruby 1.9
+  * https://github.com/sue445/paraduct/pull/82
+* Use specinfra insteadof PTY.spawn
+  * https://github.com/sue445/paraduct/pull/81
+* some refactorings
+  * https://github.com/sue445/paraduct/pull/79
+  * https://github.com/sue445/paraduct/pull/80
 
 ## v0.0.3
 [full changelog](http://github.com/sue445/paraduct/compare/v0.0.2...v0.0.3)
 
 * relax exclude definition
   * https://github.com/sue445/paraduct/pull/74
+* some refactorings
+  * https://github.com/sue445/paraduct/pull/73
+  * https://github.com/sue445/paraduct/pull/76
 
 ## v0.0.2
 [full changelog](http://github.com/sue445/paraduct/compare/v0.0.1...v0.0.2)
