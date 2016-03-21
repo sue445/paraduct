@@ -13,7 +13,7 @@ Paraduct (**parallel** + **parameterize** + **product**) is matrix test runner
 ![architecture](img/architecture.png)
 
 ## Requirements
-* ruby 1.9+
+* ruby 2.0+
 * rsync
 
 ## Installation
