@@ -5,10 +5,6 @@
   * https://github.com/sue445/paraduct/pull/77
 * Run under current directory when work_dir is empty
   * https://github.com/sue445/paraduct/pull/78
-* Stop support ruby 1.9
-  * https://github.com/sue445/paraduct/pull/82
-* Use specinfra insteadof PTY.spawn
-  * https://github.com/sue445/paraduct/pull/81
 * some refactorings
   * https://github.com/sue445/paraduct/pull/79
   * https://github.com/sue445/paraduct/pull/80
