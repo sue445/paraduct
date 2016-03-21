@@ -33,9 +33,9 @@ module Paraduct
       :light_blue,
     ]
     def self.next_color
-      @@color_index ||= -1
-      @@color_index = (@@color_index + 1) % COLORS.length
-      COLORS[@@color_index]
+      @color_index ||= -1
+      @color_index = (@color_index + 1) % COLORS.length
+      COLORS[@color_index]
     end
   end
 end
