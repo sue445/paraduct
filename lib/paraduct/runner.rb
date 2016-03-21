@@ -4,15 +4,15 @@ module Paraduct
   class Runner
     attr_reader :script, :params, :base_job_dir
 
-    # @param args
-    # @option args :script [String, Array<String>] script file, script(s)
-    # @option args :params [Hash{String => String}] key is capitalized and value is quoted (ex. foo=1 => FOO="1" )
-    # @option args :base_job_dir [String]
-    def initialize(args={})
-      @script       = args[:script]
-      @params       = args[:params]
-      @base_job_dir = args[:base_job_dir]
-      @job_id       = args[:job_id]
+    # @params script [String, Array<String>] script file, script(s)
+    # @params params [Hash{String => String}] key is capitalized and value is quoted (ex. foo=1 => FOO="1" )
+    # @params base_job_dir [String]
+    # @params job_id [String]
+    def initialize(script: nil, params: nil, base_job_dir: nil, job_id: nil)
+      @script       = script
+      @params       = params
+      @base_job_dir = base_job_dir
+      @job_id       = job_id
     end
 
     def setup_dir
