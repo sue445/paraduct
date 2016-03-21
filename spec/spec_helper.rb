@@ -125,7 +125,7 @@ RSpec.configure do |config|
   config.before do
     unless is_verbose
       # quiet all logs
-      Paraduct::ColoredLabelLogger::SEVERITIES.each do |severity|
+      [:debug, :info, :warn, :error, :fatal].each do |severity|
         allow(Paraduct.logger).to receive(severity)
         allow_any_instance_of(Paraduct::ColoredLabelLogger).to receive(severity)
       end
