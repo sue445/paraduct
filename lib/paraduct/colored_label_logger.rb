@@ -37,7 +37,7 @@ module Paraduct
 
         content = ""
         message.each_line do |line|
-          content << "#{@label} #{datetime}: #{line.strip}\n"
+          content << "#{datetime} #{@label} #{line.strip}\n"
         end
         content
       end
