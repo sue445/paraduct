@@ -1,13 +1,19 @@
 ## master
 [full changelog](http://github.com/sue445/paraduct/compare/v0.0.3...master)
 
+### Breaking changes :bomb:
 * Stop convert key capitalize
   * https://github.com/sue445/paraduct/pull/77
+* Stop support ruby 1.9
+  * https://github.com/sue445/paraduct/pull/87
+
+### Enhancements
 * Run under current directory when work_dir is empty
   * https://github.com/sue445/paraduct/pull/78
-* some refactorings
-  * https://github.com/sue445/paraduct/pull/79
-  * https://github.com/sue445/paraduct/pull/80
+
+### some refactorings
+* https://github.com/sue445/paraduct/pull/79
+* https://github.com/sue445/paraduct/pull/80
 
 ## v0.0.3
 [full changelog](http://github.com/sue445/paraduct/compare/v0.0.2...v0.0.3)
