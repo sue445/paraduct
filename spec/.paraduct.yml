@@ -1,4 +1,5 @@
 script: ./script/build_success.sh
+after_acript: ./script/build_finish.sh
 work_dir: tmp/paraduct_workspace
 variables:
   RUBY:

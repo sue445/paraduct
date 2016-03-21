@@ -1,5 +1,7 @@
 script: |-
   echo "NAME1=${NAME1}, NAME2=${NAME2}"
+after_script: |-
+  echo "Build is finished"
 work_dir: tmp/paraduct_workspace
 variables:
   NAME1:

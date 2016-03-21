@@ -59,10 +59,12 @@ $ vi .paraduct_rsync_exclude.txt
 $ paraduct test
 ```
 
-## Format
+## .paraduct.yml Format
 ```yaml
 script: |-
   echo "NAME1=${NAME1}, NAME2=${NAME2}"
+after_script: |-
+  echo "Build is finished"
 work_dir: tmp/paraduct_workspace
 variables:
   NAME1:
@@ -81,6 +83,9 @@ exclude:
 
 ### script
 script to run
+
+### after_script
+script to run after both `script` successful and `script` failure
 
 ### work_dir
 diretory to run

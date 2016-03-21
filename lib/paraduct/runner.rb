@@ -2,14 +2,12 @@ module Paraduct
   require "pty"
 
   class Runner
-    attr_reader :script, :params, :base_job_dir
+    attr_reader :params, :base_job_dir
 
-    # @param script [String, Array<String>] script file, script(s)
     # @param params [Hash{String => String}] value is quoted (ex. FOO=1 => FOO="1" )
     # @param base_job_dir [String]
     # @param job_id [String]
-    def initialize(script: nil, params: nil, base_job_dir: nil, job_id: nil)
-      @script       = script
+    def initialize(params: nil, base_job_dir: nil, job_id: nil)
       @params       = params
       @base_job_dir = base_job_dir
       @job_id       = job_id
@@ -22,13 +20,14 @@ module Paraduct
     end
 
     # run script with params
+    # @param script [String, Array<String>] script file, script(s)
     # @return [String] stdout
     # @raise [Paraduct::Errors::ProcessError] command exited error status
-    def perform
+    def perform(script)
       export_variables = @params.reverse_merge("PARADUCT_JOB_ID" => @job_id, "PARADUCT_JOB_NAME" => job_name)
       variable_string = export_variables.map{ |key, value| %(export #{key}="#{value}";) }.join(" ")
 
-      Array.wrap(@script).inject("") do |stdout, command|
+      Array.wrap(script).inject("") do |stdout, command|
         stdout << run_command("#{variable_string} #{command}")
         stdout
       end
