@@ -37,7 +37,7 @@ describe Paraduct::Runner do
         it { should match /DATABASE=mysql/ }
       end
 
-      context "when error in script file", with_retry do
+      context "when error in script file" do
         let(:script){ "./script/build_error.sh" }
 
         let(:stdout) do
