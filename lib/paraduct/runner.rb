@@ -61,7 +61,10 @@ module Paraduct
     def run_command(command)
       full_stdout = ""
 
-      PTY.spawn(command) do |stdin, _stdout, pid|
+      PTY.spawn(command) do |stdin, stdout, pid|
+        stdout.close_write
+        stdin.sync = true
+
         begin
           stdin.each do |line|
             line.strip!
@@ -69,9 +72,11 @@ module Paraduct
             full_stdout << "#{line}\n"
           end
         rescue Errno::EIO
+        ensure
+          _, exit_status = Process.waitpid2(pid)
         end
-        exit_status = PTY.check(pid)
-        raise Paraduct::Errors::ProcessError.new(full_stdout, exit_status) if exit_status && !exit_status.success?
+
+        raise Paraduct::Errors::ProcessError.new(full_stdout, exit_status) unless exit_status.success?
       end
 
       full_stdout
