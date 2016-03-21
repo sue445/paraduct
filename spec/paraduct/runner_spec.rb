@@ -1,7 +1,6 @@
 describe Paraduct::Runner do
   let(:runner) do
     Paraduct::Runner.new(
-      script:       script,
       params:       params,
       base_job_dir: base_job_dir,
       job_id:       job_id,
@@ -11,12 +10,11 @@ describe Paraduct::Runner do
   include_context "uses temp dir"
 
   let(:base_job_dir){ temp_dir }
-  let(:script)      { "" }
   let(:params)      { {} }
   let(:job_id)      { 1 }
 
   describe "#perform" do
-    subject{ runner.perform }
+    subject{ runner.perform(script) }
 
     let(:script) { "./script/build_success.sh" }
     let(:params) { { "RUBY" => "1.9", "DATABASE" => "mysql" } }

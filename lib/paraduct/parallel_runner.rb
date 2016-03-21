@@ -20,7 +20,6 @@ START matrix test
       begin
         product_variables.each_with_index do |params, index|
           runner = Paraduct::Runner.new(
-            script:       script,
             params:       params,
             base_job_dir: base_job_dir,
             job_id:       index + 1,
@@ -29,7 +28,7 @@ START matrix test
             runner.logger.info "[START] params: #{runner.formatted_params}"
             runner.setup_dir if Paraduct.config.enable_rsync?
             begin
-              stdout = runner.perform
+              stdout = runner.perform(script)
               successful = true
             rescue Paraduct::Errors::ProcessError => e
               runner.logger.error "exitstatus=#{e.status}, #{e.inspect}"
