@@ -22,7 +22,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "activesupport", "~> 4.0"
   spec.add_dependency "colorize"
   spec.add_dependency "rsync"
-  spec.add_dependency "specinfra"
   spec.add_dependency "thor"
   spec.add_dependency "thread"
 

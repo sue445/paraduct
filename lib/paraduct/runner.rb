@@ -1,21 +1,18 @@
 module Paraduct
   require "pty"
-  require 'specinfra/core'
 
   class Runner
     attr_reader :script, :params, :base_job_dir
 
-    # @param script [String, Array<String>] script file, script(s)
-    # @param params [Hash{String => String}] value is quoted (ex. FOO=1 => FOO="1" )
-    # @param base_job_dir [String]
-    # @param job_id [String]
+    # @params script [String, Array<String>] script file, script(s)
+    # @params params [Hash{String => String}] value is quoted (ex. FOO=1 => FOO="1" )
+    # @params base_job_dir [String]
+    # @params job_id [String]
     def initialize(script: nil, params: nil, base_job_dir: nil, job_id: nil)
       @script       = script
       @params       = params
       @base_job_dir = base_job_dir
       @job_id       = job_id
-
-      @backend = Specinfra::Backend::Exec.new
     end
 
     def setup_dir
@@ -62,20 +59,20 @@ module Paraduct
     private
 
     def run_command(command)
-      command_result = @backend.run_command(command)
-
       full_stdout = ""
-      command_result.stdout.each_line do |line|
-        line = line.strip
-        logger.info line
-        full_stdout << "#{line}\n"
+
+      PTY.spawn(command) do |stdin, _stdout, pid|
+        begin
+          stdin.each do |line|
+            line.strip!
+            logger.info line
+            full_stdout << "#{line}\n"
+          end
+        rescue Errno::EIO
+        end
+        exit_status = PTY.check(pid)
+        raise Paraduct::Errors::ProcessError.new(full_stdout, exit_status) if exit_status && !exit_status.success?
       end
-      command_result.stderr.each_line do |line|
-        line = line.strip
-        logger.info line
-        full_stdout << "#{line}\n"
-      end
-      raise Paraduct::Errors::ProcessError.new(full_stdout, command_result.exit_status) if command_result.failure?
 
       full_stdout
     end
