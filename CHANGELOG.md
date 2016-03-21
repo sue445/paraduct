@@ -10,6 +10,8 @@
 ### Enhancements
 * Run under current directory when work_dir is empty
   * https://github.com/sue445/paraduct/pull/78
+* Add `after_script`
+  * https://github.com/sue445/paraduct/pull/88
 
 ### some refactorings
 * https://github.com/sue445/paraduct/pull/79
