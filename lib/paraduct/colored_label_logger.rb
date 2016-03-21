@@ -3,20 +3,8 @@ module Paraduct
     def initialize(label_name, logdev = STDOUT)
       super(logdev)
       color = Paraduct::ColoredLabelLogger.next_color
-      # @label = "[#{label_name.to_s.colorize(color)}]"
-      # @formatter = ActiveSupport::Logger::SimpleFormatter.new
       @formatter = Formatter.new(label_name, color)
     end
-
-    # SEVERITIES = [:debug, :info, :warn, :error, :fatal]
-    # SEVERITIES.each do |severity|
-    #   define_method "#{severity}_with_label" do |message|
-    #     message.each_line do |line|
-    #       send "#{severity}_without_label", "#{@label} #{line.strip}" unless line.blank?
-    #     end
-    #   end
-    #   alias_method_chain severity, :label
-    # end
 
     COLORS = [
       :cyan,
@@ -49,7 +37,7 @@ module Paraduct
 
         content = ""
         message.each_line do |line|
-          content << "#{@label} #{line.strip}\n"
+          content << "#{@label} #{datetime}: #{line.strip}\n"
         end
         content
       end
