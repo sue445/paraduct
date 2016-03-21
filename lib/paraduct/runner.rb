@@ -5,7 +5,7 @@ module Paraduct
     attr_reader :script, :params, :base_job_dir
 
     # @params script [String, Array<String>] script file, script(s)
-    # @params params [Hash{String => String}] key is capitalized and value is quoted (ex. foo=1 => FOO="1" )
+    # @params params [Hash{String => String}] value is quoted (ex. FOO=1 => FOO="1" )
     # @params base_job_dir [String]
     # @params job_id [String]
     def initialize(script: nil, params: nil, base_job_dir: nil, job_id: nil)
