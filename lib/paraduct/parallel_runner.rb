@@ -4,9 +4,10 @@ module Paraduct
   class ParallelRunner
     # run script with arguments
     # @param script            [String, Array<String>] script file, script(s)
+    # @param after_script      [String, Array<String>] script file, script(s)
     # @param product_variables [Array<Hash{String => String}>]
     # @return [Paraduct::TestResponse]
-    def self.perform_all(script: nil, product_variables: nil)
+    def self.perform_all(script: nil, after_script: nil, product_variables: nil)
       test_response = Paraduct::TestResponse.new
       base_job_dir = Paraduct.config.base_job_dir
       FileUtils.mkdir_p(base_job_dir) unless base_job_dir.exist?
@@ -27,18 +28,13 @@ START matrix test
           pool.process do
             runner.logger.info "[START] params: #{runner.formatted_params}"
             runner.setup_dir if Paraduct.config.enable_rsync?
-            begin
-              stdout = runner.perform(script)
-              successful = true
-            rescue Paraduct::Errors::ProcessError => e
-              runner.logger.error "exitstatus=#{e.status}, #{e.inspect}"
-              stdout = e.message
-              successful = false
 
-            rescue Exception => e
-              runner.logger.error "Unknown error: #{e.inspect}"
-              runner.logger.error e.backtrace.join("\n")
-              successful = false
+            stdout, successful = perform_runner(runner, script)
+
+            unless after_script.blank?
+              after_stdout, after_successful = perform_runner(runner, after_script)
+              stdout << after_stdout
+              successful &&= after_successful
             end
 
             runner.logger.info "[END]   params: #{runner.formatted_params}"
@@ -59,6 +55,22 @@ START matrix test
       raise Paraduct::Errors::DirtyExitError unless test_response.jobs_count == product_variables.count
 
       test_response
+    end
+
+    private_class_method
+
+    def self.perform_runner(runner, script)
+      stdout = runner.perform(script)
+      [stdout, true]
+
+    rescue Paraduct::Errors::ProcessError => e
+      runner.logger.error "exitstatus=#{e.status}, #{e.inspect}"
+      [e.message, false]
+
+    rescue Exception => e
+      runner.logger.error "Unknown error: #{e.inspect}"
+      runner.logger.error e.backtrace.join("\n")
+      [nil, false]
     end
   end
 end

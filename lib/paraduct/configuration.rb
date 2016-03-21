@@ -15,6 +15,11 @@ module Paraduct
       config_data[:script]
     end
 
+    # @return [String, Array<String>]
+    def after_script
+      config_data[:after_script]
+    end
+
     # @return [Integer]
     def max_threads
       config_data[:max_threads] || 4

@@ -12,6 +12,7 @@ variables:
     - 3.2.0
     - 4.0.0
     - 4.1.0
+after_acript: ./script/build_finish.sh
 max_threads: 4
 rsync_option:
   exclude_from: .paraduct_rsync_exclude.txt

@@ -24,6 +24,7 @@ describe Paraduct::CLI do
         let(:config_data) do
           {
             script: "./script/build_success.sh",
+            after_script: "./script/build_finish.sh",
             work_dir: "tmp/paraduct_workspace",
             variables: {
               "RUBY" =>     ["1.9.3", "2.0.0"],
@@ -33,6 +34,7 @@ describe Paraduct::CLI do
         end
 
         let(:script){ "./script/build_success.sh" }
+        let(:after_script){ "./script/build_finish.sh" }
         let(:product_variables) do
           [
             { "RUBY" => "1.9.3", "DATABASE" => "mysql"      },
@@ -49,7 +51,8 @@ describe Paraduct::CLI do
         end
 
         it "should call perform_all" do
-          expect(Paraduct::ParallelRunner).to receive(:perform_all).with(script: script, product_variables: product_variables){ test_response }
+          expect(Paraduct::ParallelRunner).to receive(:perform_all).
+            with(script: script, after_script: after_script, product_variables: product_variables){ test_response }
           subject
         end
       end
