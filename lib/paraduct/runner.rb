@@ -60,6 +60,7 @@ module Paraduct
 
     def run_command(command)
       full_stdout = ""
+      exit_status = nil
 
       PTY.spawn(command) do |stdin, stdout, pid|
         stdout.close_write
@@ -75,9 +76,9 @@ module Paraduct
         ensure
           _, exit_status = Process.waitpid2(pid)
         end
-
-        raise Paraduct::Errors::ProcessError.new(full_stdout, exit_status) unless exit_status.success?
       end
+
+      raise Paraduct::Errors::ProcessError.new(full_stdout, exit_status) unless exit_status.success?
 
       full_stdout
     end
