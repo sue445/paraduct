@@ -61,6 +61,8 @@ module Paraduct
       full_stdout = ""
       exit_status = nil
 
+      logger.info "run_command: #{command}"
+
       PTY.spawn(command) do |stdin, stdout, pid|
         stdout.close_write
         stdin.sync = true
