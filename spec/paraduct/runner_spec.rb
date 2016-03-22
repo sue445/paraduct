@@ -18,7 +18,10 @@ describe Paraduct::Runner do
 
     let(:script) { "./script/build_success.sh" }
     let(:params) { { "RUBY" => "1.9", "DATABASE" => "mysql" } }
+
+    # rubocop:disable Metrics/LineLength
     let(:command) { 'export PARADUCT_JOB_ID="1"; export PARADUCT_JOB_NAME="RUBY_1.9_DATABASE_mysql"; export RUBY="1.9"; export DATABASE="mysql"; ./script/build_success.sh' }
+    # rubocop:enable Metrics/LineLength
 
     context "with mock system" do
       it "script is call with capitalized variable" do
