@@ -67,7 +67,7 @@ START matrix test
       runner.logger.error "exitstatus=#{e.status}, #{e.inspect}"
       [e.message, false]
 
-    rescue Exception => e
+    rescue => e
       runner.logger.error "Unknown error: #{e.inspect}"
       runner.logger.error e.backtrace.join("\n")
       [nil, false]
