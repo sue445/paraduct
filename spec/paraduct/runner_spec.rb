@@ -31,8 +31,8 @@ describe Paraduct::Runner do
       include_context :within_spec_dir
 
       context "when success" do
-        it { should match /RUBY=1.9/ }
-        it { should match /DATABASE=mysql/ }
+        it { should match(/RUBY=1.9/) }
+        it { should match(/DATABASE=mysql/) }
       end
 
       context "when error in script file" do
