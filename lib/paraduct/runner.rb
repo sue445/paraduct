@@ -73,7 +73,7 @@ module Paraduct
               logger.info line
               full_stdout << "#{line}\n"
             end
-          rescue Errno::EIO
+          rescue Errno::EIO # rubocop:disable Lint/HandleExceptions
           ensure
             _, exit_status = Process.waitpid2(pid)
           end
