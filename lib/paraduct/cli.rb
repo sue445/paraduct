@@ -1,5 +1,5 @@
-require 'paraduct'
-require 'thor'
+require "paraduct"
+require "thor"
 
 module Paraduct
   class CLI < Thor

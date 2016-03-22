@@ -42,30 +42,29 @@ describe Paraduct::VariableConverter do
       end
 
       it { should have(12).entries }
-      it { should include("ruby" => "1.9", "database" => "mysql"     , "rails" => "3.2") }
-      it { should include("ruby" => "2.0", "database" => "mysql"     , "rails" => "3.2") }
-      it { should include("ruby" => "2.1", "database" => "mysql"     , "rails" => "3.2") }
+      it { should include("ruby" => "1.9", "database" => "mysql",      "rails" => "3.2") }
+      it { should include("ruby" => "2.0", "database" => "mysql",      "rails" => "3.2") }
+      it { should include("ruby" => "2.1", "database" => "mysql",      "rails" => "3.2") }
       it { should include("ruby" => "1.9", "database" => "postgresql", "rails" => "3.2") }
       it { should include("ruby" => "2.0", "database" => "postgresql", "rails" => "3.2") }
       it { should include("ruby" => "2.1", "database" => "postgresql", "rails" => "3.2") }
-      it { should include("ruby" => "1.9", "database" => "mysql"     , "rails" => "4.0") }
-      it { should include("ruby" => "2.0", "database" => "mysql"     , "rails" => "4.0") }
-      it { should include("ruby" => "2.1", "database" => "mysql"     , "rails" => "4.0") }
+      it { should include("ruby" => "1.9", "database" => "mysql",      "rails" => "4.0") }
+      it { should include("ruby" => "2.0", "database" => "mysql",      "rails" => "4.0") }
+      it { should include("ruby" => "2.1", "database" => "mysql",      "rails" => "4.0") }
       it { should include("ruby" => "1.9", "database" => "postgresql", "rails" => "4.0") }
       it { should include("ruby" => "2.0", "database" => "postgresql", "rails" => "4.0") }
       it { should include("ruby" => "2.1", "database" => "postgresql", "rails" => "4.0") }
     end
-
   end
 
   describe "#reject" do
-    subject{ Paraduct::VariableConverter.reject(product_variables, exclude_variables) }
+    subject { Paraduct::VariableConverter.reject(product_variables, exclude_variables) }
 
     let(:product_variables) do
       [
-        { "ruby" => "1.9", "database" => "mysql"     , "rails" => "3.2" },
-        { "ruby" => "2.0", "database" => "mysql"     , "rails" => "3.2" },
-        { "ruby" => "2.1", "database" => "mysql"     , "rails" => "3.2" },
+        { "ruby" => "1.9", "database" => "mysql", "rails" => "3.2" },
+        { "ruby" => "2.0", "database" => "mysql", "rails" => "3.2" },
+        { "ruby" => "2.1", "database" => "mysql", "rails" => "3.2" },
       ]
     end
 
@@ -78,9 +77,9 @@ describe Paraduct::VariableConverter do
 
       it do
         should contain_exactly(
-                 { "ruby" => "1.9", "database" => "mysql", "rails" => "3.2" },
-                 { "ruby" => "2.1", "database" => "mysql", "rails" => "3.2" },
-               )
+          { "ruby" => "1.9", "database" => "mysql", "rails" => "3.2" },
+          { "ruby" => "2.1", "database" => "mysql", "rails" => "3.2" }
+        )
       end
     end
 
@@ -93,42 +92,42 @@ describe Paraduct::VariableConverter do
 
       it do
         should contain_exactly(
-                 { "ruby" => "2.0", "database" => "mysql", "rails" => "3.2" },
-                 { "ruby" => "2.1", "database" => "mysql", "rails" => "3.2" },
-               )
+          { "ruby" => "2.0", "database" => "mysql", "rails" => "3.2" },
+          { "ruby" => "2.1", "database" => "mysql", "rails" => "3.2" }
+        )
       end
     end
   end
 
   describe "#partial_match?" do
-    subject{ Paraduct::VariableConverter.partial_match?(parent_hash, child_hash) }
+    subject { Paraduct::VariableConverter.partial_match?(parent_hash, child_hash) }
 
     context "with parent_hash == child_hash" do
-      let(:parent_hash){ { a: 1, b: 2, c: 3 } }
+      let(:parent_hash) { { a: 1, b: 2, c: 3 } }
       let(:child_hash) { { a: 1, b: 2, c: 3 } }
 
-      it{ should be true }
+      it { should be true }
     end
 
     context "with parent_hash > child_hash" do
-      let(:parent_hash){ { a: 1, b: 2, c: 3 } }
+      let(:parent_hash) { { a: 1, b: 2, c: 3 } }
       let(:child_hash) { { a: 1, c: 3 } }
 
-      it{ should be true }
+      it { should be true }
     end
 
     context "with parent_hash > child_hash, but value is not same" do
-      let(:parent_hash){ { a: 1, b: 2, c: 3 } }
+      let(:parent_hash) { { a: 1, b: 2, c: 3 } }
       let(:child_hash) { { a: 1, c: 4 } }
 
-      it{ should be false }
+      it { should be false }
     end
 
     context "with parent_hash < child_hash" do
-      let(:parent_hash){ { a: 1, b: 2, c: 3 } }
+      let(:parent_hash) { { a: 1, b: 2, c: 3 } }
       let(:child_hash) { { a: 1, c: 3, d: 4 } }
 
-      it{ should be false }
+      it { should be false }
     end
   end
 end

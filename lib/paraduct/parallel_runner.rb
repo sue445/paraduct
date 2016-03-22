@@ -23,7 +23,7 @@ START matrix test
           runner = Paraduct::Runner.new(
             params:       params,
             base_job_dir: base_job_dir,
-            job_id:       index + 1,
+            job_id:       index + 1
           )
           pool.process do
             runner.logger.info "[START] params: #{runner.formatted_params}"
@@ -44,7 +44,7 @@ START matrix test
               params:           runner.params,
               formatted_params: runner.formatted_params,
               successful:       successful,
-              stdout:           stdout,
+              stdout:           stdout
             )
           end
         end

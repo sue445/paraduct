@@ -62,8 +62,8 @@ module Paraduct
 
     private
 
-    def config_data
-      @config_data ||= YAML.load_file(config_file).with_indifferent_access
-    end
+      def config_data
+        @config_data ||= YAML.load_file(config_file).with_indifferent_access
+      end
   end
 end

@@ -26,7 +26,7 @@ module Paraduct
 
     def self.reject(product_variables, exclude_variables)
       product_variables.inject([]) do |rejected_product_variables, variables|
-        rejected_product_variables << variables unless exclude_variables.any?{ |exclude| partial_match?(variables, exclude) }
+        rejected_product_variables << variables unless exclude_variables.any? { |exclude| partial_match?(variables, exclude) }
         rejected_product_variables
       end
     end

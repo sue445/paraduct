@@ -1,6 +1,6 @@
 describe Paraduct::SyncUtils do
   describe "#copy_recursive" do
-    subject{ Paraduct::SyncUtils.copy_recursive(source_dir, destination_dir) }
+    subject { Paraduct::SyncUtils.copy_recursive(source_dir, destination_dir) }
 
     include_context :within_temp_dir
     include_context :stub_configuration
@@ -13,10 +13,10 @@ describe Paraduct::SyncUtils do
       }
     end
 
-    let(:source_dir)     { temp_dir_path }
-    let(:destination_dir){ temp_dir_path.join("tmp/paraduct_workspace/RUBY_1.9_DATABASE_mysql") }
-    let(:copied_file)    { destination_dir.join("build_success.sh") }
-    let(:not_copied_file){ destination_dir.join("tmp/paraduct_workspace/dummy.txt") }
+    let(:source_dir) { temp_dir_path }
+    let(:destination_dir) { temp_dir_path.join("tmp/paraduct_workspace/RUBY_1.9_DATABASE_mysql") }
+    let(:copied_file) { destination_dir.join("build_success.sh") }
+    let(:not_copied_file) { destination_dir.join("tmp/paraduct_workspace/dummy.txt") }
 
     before do
       # setup

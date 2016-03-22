@@ -1,20 +1,20 @@
 describe Paraduct::CLI do
   subject { Paraduct::CLI.start(args) }
 
-  let(:args){ [command] }
+  let(:args) { [command] }
 
   describe "#version" do
     %w(version --version).each do |_command|
       context "with #{_command}" do
-        let(:command){ _command }
+        let(:command) { _command }
 
-        it { expect{ subject }.to output("#{Paraduct::VERSION}\n").to_stdout }
+        it { expect { subject }.to output("#{Paraduct::VERSION}\n").to_stdout }
       end
     end
   end
 
   describe "#test" do
-    let(:command){ "test" }
+    let(:command) { "test" }
 
     include_context :stub_configuration
     include_context :within_temp_dir
@@ -33,8 +33,8 @@ describe Paraduct::CLI do
           }
         end
 
-        let(:script){ "./script/build_success.sh" }
-        let(:after_script){ "./script/build_finish.sh" }
+        let(:script) { "./script/build_success.sh" }
+        let(:after_script) { "./script/build_finish.sh" }
         let(:product_variables) do
           [
             { "RUBY" => "1.9.3", "DATABASE" => "mysql"      },
@@ -52,7 +52,7 @@ describe Paraduct::CLI do
 
         it "should call perform_all" do
           expect(Paraduct::ParallelRunner).to receive(:perform_all).
-            with(script: script, after_script: after_script, product_variables: product_variables){ test_response }
+            with(script: script, after_script: after_script, product_variables: product_variables) { test_response }
           subject
         end
       end
@@ -60,7 +60,7 @@ describe Paraduct::CLI do
       context "failure test" do
         let(:config_data) do
           {
-            script: %q(exit ${STATUS}),
+            script: "exit ${STATUS}",
             work_dir: "tmp/paraduct_workspace",
             variables: {
               "STATUS" => [0, 1],
@@ -73,7 +73,7 @@ describe Paraduct::CLI do
     end
 
     context "with --dry-run" do
-      let(:args){ [command, "--dry-run"] }
+      let(:args) { [command, "--dry-run"] }
 
       it "should not call perform_all" do
         expect(Paraduct::ParallelRunner).not_to receive(:perform_all)
@@ -83,7 +83,7 @@ describe Paraduct::CLI do
   end
 
   describe "#generate" do
-    let(:command){ "generate" }
+    let(:command) { "generate" }
 
     include_context :within_temp_dir
 
@@ -94,7 +94,7 @@ describe Paraduct::CLI do
 
     %w(.paraduct.yml .paraduct_rsync_exclude.txt).each do |template_file|
       describe "whether copy #{template_file}" do
-        let(:generated_config_file){ temp_dir_path.join(template_file) }
+        let(:generated_config_file) { temp_dir_path.join(template_file) }
 
         it { expect(generated_config_file).to be_exist }
       end
