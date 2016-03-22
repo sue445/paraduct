@@ -12,6 +12,8 @@
   * https://github.com/sue445/paraduct/pull/78
 * Add `after_script`
   * https://github.com/sue445/paraduct/pull/88
+* Add start command logging
+  * https://github.com/sue445/paraduct/pull/89
 
 ### some refactorings
 * https://github.com/sue445/paraduct/pull/79
