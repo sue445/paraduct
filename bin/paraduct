@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'paraduct/cli'
+require "paraduct/cli"
 
 Paraduct::CLI.start

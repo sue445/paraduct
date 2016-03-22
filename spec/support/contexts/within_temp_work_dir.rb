@@ -13,5 +13,4 @@ shared_context :within_temp_work_dir do
   after do
     Dir.chdir(@current_dir)
   end
-
 end

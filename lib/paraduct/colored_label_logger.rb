@@ -20,7 +20,7 @@ module Paraduct
       :light_magenta,
       :light_red,
       :light_blue,
-    ]
+    ].freeze
     def self.next_color
       @color_index ||= -1
       @color_index = (@color_index + 1) % COLORS.length

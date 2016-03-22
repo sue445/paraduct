@@ -23,7 +23,7 @@ START matrix test
           runner = Paraduct::Runner.new(
             params:       params,
             base_job_dir: base_job_dir,
-            job_id:       index + 1,
+            job_id:       index + 1
           )
           pool.process do
             runner.logger.info "[START] params: #{runner.formatted_params}"
@@ -44,7 +44,7 @@ START matrix test
               params:           runner.params,
               formatted_params: runner.formatted_params,
               successful:       successful,
-              stdout:           stdout,
+              stdout:           stdout
             )
           end
         end
@@ -67,7 +67,7 @@ START matrix test
       runner.logger.error "exitstatus=#{e.status}, #{e.inspect}"
       [e.message, false]
 
-    rescue Exception => e
+    rescue => e
       runner.logger.error "Unknown error: #{e.inspect}"
       runner.logger.error e.backtrace.join("\n")
       [nil, false]

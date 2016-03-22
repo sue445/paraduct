@@ -1,15 +1,15 @@
 # coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'paraduct/version'
+require "paraduct/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "paraduct"
   spec.version       = Paraduct::VERSION
   spec.authors       = ["sue445"]
   spec.email         = ["sue445@sue445.net"]
-  spec.summary       = %q{matrix test runner}
-  spec.description   = %q{Paraduct(parallel + parameterize + product) is matrix test runner}
+  spec.summary       = "matrix test runner"
+  spec.description   = "Paraduct(parallel + parameterize + product) is matrix test runner"
   spec.homepage      = "https://github.com/sue445/paraduct"
   spec.license       = "MIT"
 
@@ -28,6 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", ">= 1.5"
   spec.add_development_dependency "codeclimate-test-reporter"
   spec.add_development_dependency "coveralls"
+  spec.add_development_dependency "rubocop", "0.37.0"
   spec.add_development_dependency "pry-byebug"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "redcarpet"

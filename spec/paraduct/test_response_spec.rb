@@ -1,8 +1,8 @@
 describe Paraduct::TestResponse do
-  let(:test_response){ Paraduct::TestResponse.new }
+  let(:test_response) { Paraduct::TestResponse.new }
 
   describe "#successful?" do
-    subject{ test_response.successful? }
+    subject { test_response.successful? }
 
     context "not include failure" do
       before do
@@ -24,12 +24,12 @@ describe Paraduct::TestResponse do
   end
 
   describe "#detail_message" do
-    subject{ test_response.detail_message }
+    subject { test_response.detail_message }
 
     context "when successful" do
       before do
-        test_response.jobs_push(successful: true, params: { "ruby" => "1.8", "database" => "sqlite3" }   , formatted_params: "ruby=1.8, database=sqlite3")
-        test_response.jobs_push(successful: true, params: { "ruby" => "1.9", "database" => "mysql" }     , formatted_params: "ruby=1.9, database=mysql")
+        test_response.jobs_push(successful: true, params: { "ruby" => "1.8", "database" => "sqlite3" }, formatted_params: "ruby=1.8, database=sqlite3")
+        test_response.jobs_push(successful: true, params: { "ruby" => "1.9", "database" => "mysql" }, formatted_params: "ruby=1.9, database=mysql")
         test_response.jobs_push(successful: true, params: { "ruby" => "2.0", "database" => "postgresql" }, formatted_params: "ruby=2.0, database=postgresql")
       end
 
@@ -49,8 +49,8 @@ Passed:
 
     context "when failure" do
       before do
-        test_response.jobs_push(successful: true , params: { "ruby" => "1.8", "database" => "sqlite3" }   , formatted_params: "ruby=1.8, database=sqlite3")
-        test_response.jobs_push(successful: false, params: { "ruby" => "1.9", "database" => "mysql" }     , formatted_params: "ruby=1.9, database=mysql")
+        test_response.jobs_push(successful: true, params: { "ruby" => "1.8", "database" => "sqlite3" }, formatted_params: "ruby=1.8, database=sqlite3")
+        test_response.jobs_push(successful: false, params: { "ruby" => "1.9", "database" => "mysql" }, formatted_params: "ruby=1.9, database=mysql")
         test_response.jobs_push(successful: false, params: { "ruby" => "2.0", "database" => "postgresql" }, formatted_params: "ruby=2.0, database=postgresql")
       end
 

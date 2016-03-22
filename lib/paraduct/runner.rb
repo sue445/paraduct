@@ -25,7 +25,7 @@ module Paraduct
     # @raise [Paraduct::Errors::ProcessError] command exited error status
     def perform(script)
       export_variables = @params.reverse_merge("PARADUCT_JOB_ID" => @job_id, "PARADUCT_JOB_NAME" => job_name)
-      variable_string = export_variables.map{ |key, value| %(export #{key}="#{value}";) }.join(" ")
+      variable_string = export_variables.map { |key, value| %(export #{key}="#{value}";) }.join(" ")
 
       Array.wrap(script).inject("") do |stdout, command|
         stdout << run_command("#{variable_string} #{command}")
@@ -38,11 +38,11 @@ module Paraduct
     end
 
     def job_name
-      @params.map { |key, value| "#{key}_#{value}" }.join("_").gsub(%r([/ ]), "_")
+      @params.map { |key, value| "#{key}_#{value}" }.join("_").gsub(%r{[/ ]}, "_")
     end
 
     def formatted_params
-      @params.map{ |key, value| "#{key}=#{value}" }.join(", ")
+      @params.map { |key, value| "#{key}=#{value}" }.join(", ")
     end
 
     def logger
@@ -57,31 +57,31 @@ module Paraduct
 
     private
 
-    def run_command(command)
-      full_stdout = ""
-      exit_status = nil
+      def run_command(command)
+        full_stdout = ""
+        exit_status = nil
 
-      logger.info "run_command: #{command}"
+        logger.info "run_command: #{command}"
 
-      PTY.spawn(command) do |stdin, stdout, pid|
-        stdout.close_write
-        stdin.sync = true
+        PTY.spawn(command) do |stdin, stdout, pid|
+          stdout.close_write
+          stdin.sync = true
 
-        begin
-          stdin.each do |line|
-            line.strip!
-            logger.info line
-            full_stdout << "#{line}\n"
+          begin
+            stdin.each do |line|
+              line.strip!
+              logger.info line
+              full_stdout << "#{line}\n"
+            end
+          rescue Errno::EIO # rubocop:disable Lint/HandleExceptions
+          ensure
+            _, exit_status = Process.waitpid2(pid)
           end
-        rescue Errno::EIO
-        ensure
-          _, exit_status = Process.waitpid2(pid)
         end
+
+        raise Paraduct::Errors::ProcessError.new(full_stdout, exit_status) unless exit_status.success?
+
+        full_stdout
       end
-
-      raise Paraduct::Errors::ProcessError.new(full_stdout, exit_status) unless exit_status.success?
-
-      full_stdout
-    end
   end
 end

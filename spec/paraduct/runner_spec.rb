@@ -3,22 +3,25 @@ describe Paraduct::Runner do
     Paraduct::Runner.new(
       params:       params,
       base_job_dir: base_job_dir,
-      job_id:       job_id,
+      job_id:       job_id
     )
   end
 
   include_context "uses temp dir"
 
-  let(:base_job_dir){ temp_dir }
+  let(:base_job_dir) { temp_dir }
   let(:params)      { {} }
   let(:job_id)      { 1 }
 
   describe "#perform" do
-    subject{ runner.perform(script) }
+    subject { runner.perform(script) }
 
     let(:script) { "./script/build_success.sh" }
     let(:params) { { "RUBY" => "1.9", "DATABASE" => "mysql" } }
-    let(:command){ 'export PARADUCT_JOB_ID="1"; export PARADUCT_JOB_NAME="RUBY_1.9_DATABASE_mysql"; export RUBY="1.9"; export DATABASE="mysql"; ./script/build_success.sh' }
+
+    # rubocop:disable Metrics/LineLength
+    let(:command) { 'export PARADUCT_JOB_ID="1"; export PARADUCT_JOB_NAME="RUBY_1.9_DATABASE_mysql"; export RUBY="1.9"; export DATABASE="mysql"; ./script/build_success.sh' }
+    # rubocop:enable Metrics/LineLength
 
     context "with mock system" do
       it "script is call with capitalized variable" do
@@ -31,12 +34,12 @@ describe Paraduct::Runner do
       include_context :within_spec_dir
 
       context "when success" do
-        it { should match /RUBY=1.9/ }
-        it { should match /DATABASE=mysql/ }
+        it { should match(/RUBY=1.9/) }
+        it { should match(/DATABASE=mysql/) }
       end
 
       context "when error in script file" do
-        let(:script){ "./script/build_error.sh" }
+        let(:script) { "./script/build_error.sh" }
 
         let(:stdout) do
           <<-EOS
@@ -45,25 +48,25 @@ DATABASE=mysql
           EOS
         end
 
-        it { expect{ subject }.to raise_error(Paraduct::Errors::ProcessError, stdout) }
+        it { expect { subject }.to raise_error(Paraduct::Errors::ProcessError, stdout) }
       end
     end
 
     context "with single command" do
-      let(:script){ 'echo RUBY=${RUBY}' }
+      let(:script) { "echo RUBY=${RUBY}" }
 
       it { should eq "RUBY=1.9\n" }
     end
 
     context "with multiple commands" do
-      let(:script){ ['echo RUBY=${RUBY}', 'echo DATABASE=${DATABASE}'] }
+      let(:script) { ["echo RUBY=${RUBY}", "echo DATABASE=${DATABASE}"] }
 
       it { should eq "RUBY=1.9\nDATABASE=mysql\n" }
     end
   end
 
   describe "#job_dir" do
-    subject{ runner.job_dir }
+    subject { runner.job_dir }
 
     let(:params) { { "RUBY" => "1.9", "DATABASE" => "mysql" } }
 
@@ -71,15 +74,15 @@ DATABASE=mysql
   end
 
   describe "#formatted_params" do
-    subject{ runner.formatted_params }
+    subject { runner.formatted_params }
 
-    let(:params){ { "RUBY" => "1.9", "DATABASE" => "mysql" } }
+    let(:params) { { "RUBY" => "1.9", "DATABASE" => "mysql" } }
 
-    it{ should eq "RUBY=1.9, DATABASE=mysql" }
+    it { should eq "RUBY=1.9, DATABASE=mysql" }
   end
 
   describe "#job_name" do
-    subject{ runner.job_name }
+    subject { runner.job_name }
 
     context "basic case" do
       let(:params) { { "RUBY" => "1.9", "DATABASE" => "mysql" } }
