@@ -62,9 +62,9 @@ $ paraduct test
 ## .paraduct.yml Format
 ```yaml
 script: |-
-  echo "NAME1=${NAME1}, NAME2=${NAME2}"
+  echo "[START] NAME1=${NAME1}, NAME2=${NAME2}"
 after_script: |-
-  echo "Build is finished"
+  echo "[END] NAME1=${NAME1}, NAME2=${NAME2}"
 work_dir: tmp/paraduct_workspace
 variables:
   NAME1:

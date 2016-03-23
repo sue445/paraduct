@@ -15,7 +15,7 @@
 * Add start command logging
   * https://github.com/sue445/paraduct/pull/89
 
-### some refactorings
+### Refactorings
 * https://github.com/sue445/paraduct/pull/79
 * https://github.com/sue445/paraduct/pull/80
 * https://github.com/sue445/paraduct/pull/90
