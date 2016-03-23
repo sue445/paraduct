@@ -1,3 +1,3 @@
 module Paraduct
-  VERSION = "1.0.0.beta6".freeze
+  VERSION = "1.0.0".freeze
 end
