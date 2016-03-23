@@ -1,5 +1,8 @@
 ## master
-[full changelog](http://github.com/sue445/paraduct/compare/v0.0.3...master)
+[full changelog](http://github.com/sue445/paraduct/compare/v1.0.0...master)
+
+## v1.0.0
+[full changelog](http://github.com/sue445/paraduct/compare/v0.0.3...v1.0.0)
 
 ### Breaking changes :bomb:
 * Stop convert key capitalize
