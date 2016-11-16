@@ -13,6 +13,7 @@ before_script:
 - export COVERAGE=true
 script:
 - bundle exec rspec
+- bundle exec codeclimate-test-reporter
 branches:
   only:
   - master
