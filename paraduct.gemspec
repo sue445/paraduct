@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "activesupport"
   spec.add_dependency "colorize"
   spec.add_dependency "rsync"
-  spec.add_dependency "thor"
+  spec.add_dependency "thor", ">= 0.19.0"
   spec.add_dependency "thread"
 
   spec.add_development_dependency "bundler", ">= 1.5"
