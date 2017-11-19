@@ -1,5 +1,12 @@
 ## master
-[full changelog](http://github.com/sue445/paraduct/compare/v1.0.0...master)
+[full changelog](http://github.com/sue445/paraduct/compare/v1.0.1...master)
+
+## v1.0.1
+[full changelog](http://github.com/sue445/paraduct/compare/v1.0.0...v1.0.1)
+
+### Refactorings
+* Use thor v0.19.0+
+  * https://github.com/sue445/paraduct/pull/98
 
 ## v1.0.0
 [full changelog](http://github.com/sue445/paraduct/compare/v0.0.3...v1.0.0)
