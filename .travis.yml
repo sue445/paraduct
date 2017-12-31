@@ -5,9 +5,13 @@ rvm:
 - 2.2
 - 2.3.2
 - 2.4.1
+- 2.5.0
 - ruby-head
 cache: bundler
 bundler_args: --jobs=2
+before_install:
+- gem update --system --no-document
+- gem install bundler -v 1.16.1 --no-document
 before_script:
 - export CODECLIMATE_REPO_TOKEN=bfa8a7ca9d8e18e9cad7593885aa11477a3c4b6b53f70f6be8ce60f470b48770
 - export VERBOSE=1
