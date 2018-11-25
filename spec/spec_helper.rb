@@ -1,4 +1,4 @@
-if ENV["COVERAGE"]
+if ENV["CI"]
   require "simplecov"
   require "coveralls"
 
