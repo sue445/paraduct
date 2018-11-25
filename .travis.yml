@@ -1,32 +1,37 @@
 language: ruby
 rvm:
-- 2.0
-- 2.1
-- 2.2
-- 2.3.2
-- 2.4.1
-- 2.5.0
-- ruby-head
+  - 2.0
+  - 2.1
+  - 2.2
+  - 2.3
+  - 2.4
+  - 2.5
+  - ruby-head
 cache: bundler
 bundler_args: --jobs=2
 before_install:
-- gem update --system --no-document
-- gem install bundler -v 1.16.1 --no-document
+  - gem update --system --no-document
+  - gem install bundler --no-document
 before_script:
-- export CODECLIMATE_REPO_TOKEN=bfa8a7ca9d8e18e9cad7593885aa11477a3c4b6b53f70f6be8ce60f470b48770
-- export VERBOSE=1
-- export COVERAGE=true
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 script:
-- bundle exec rspec
-- bundle exec codeclimate-test-reporter
+  - bundle exec rspec
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 branches:
   only:
-  - master
+    - master
 notifications:
   email: false
   slack:
     secure: Va597DRHkMl8/mcoquZ0cNcR0GbJ+kbrXDMDnkiF8S7+xtsAXG3iQB9/Z3zOjF73wXmBjYWuawhcHiKD15atS1UN3xXCfguS26eANsnG+NsU8VXzY5wRW7G+Y4YpkACh4j2YLWlFqgffHgkJ+hM/OGtwnJPA6pSPXoJ7DS48lEs=
 matrix:
   allow_failures:
-  - rvm: ruby-head
+    - rvm: ruby-head
 sudo: false
+env:
+  global:
+    - CC_TEST_REPORTER_ID=bfa8a7ca9d8e18e9cad7593885aa11477a3c4b6b53f70f6be8ce60f470b48770
+    - VERBOSE=1
